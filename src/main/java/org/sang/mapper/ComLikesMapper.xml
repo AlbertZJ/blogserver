@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="org.sang.mapper.ComLikesMapper">
+    <insert id="add" parameterType="org.sang.bean.ComLikes">
+        insert into comlikes(cid,uid,publishDate,likes) values(#{cid},#{uid},#{publishDate},#{likes})
+    </insert>
+    <select id="getLikes" resultType="org.sang.bean.ComLikes">
+        SELECT * FROM comlikes where uid=#{uid} and cid=#{cid}
+    </select>
+
+    <select id="number" resultType="org.sang.bean.ComLikes" resultMap="BaseResultMap">
+        SELECT COUNT(*) as countcomlikes FROM comlikes WHERE cid=#{cid} AND likes=#{likes}
+    </select>
+
+    <delete id="deletelike">
+        DELETE FROM comlikes WHERE uid=#{uid} and cid=#{cid} and likes=#{likes}
+    </delete>
+    <resultMap id="BaseResultMap" type="org.sang.bean.ComLikes">
+        <id column="id" property="id"/>
+        <result column="likes" property="likes"/>
+        <result column="cid" property="cid"/>
+        <result column="uid" property="uid"/>
+        <result column="publishDate" property="publishDate"/>
+    </resultMap>
+</mapper>

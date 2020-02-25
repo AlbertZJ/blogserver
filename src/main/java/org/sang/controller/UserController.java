@@ -1,6 +1,7 @@
 package org.sang.controller;
 
 import org.sang.bean.RespBean;
+import org.sang.bean.User;
 import org.sang.service.UserService;
 import org.sang.utils.Util;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -19,6 +20,8 @@ public class UserController {
 
     @Autowired
     UserService userService;
+
+
 
     @RequestMapping("/currentUserName")
     public String currentUserName() {
@@ -53,4 +56,31 @@ public class UserController {
         }
         return new RespBean("error", "开启失败!");
     }
+
+    @RequestMapping(value = "/updateUser",method = RequestMethod.PUT)
+    public RespBean updateUser(User user){
+        int result=userService.updateUserById(user);
+        if (result == 1) {
+            //成功
+            return new RespBean("success", "修改成功!");
+        } else {
+            //失败
+            return new RespBean("error", "修改失败!");
+        }
+
+    }
+
+    @RequestMapping(value = "/updatePwd",method = RequestMethod.PUT)
+    public RespBean updatePwd(User user){
+        int result=userService.updatePwdById(user);
+        if (result == 1) {
+            //成功
+            return new RespBean("success", "修改成功!");
+        } else {
+            //失败
+            return new RespBean("error", "修改失败!");
+        }
+
+    }
+
 }

@@ -5,12 +5,10 @@ import org.sang.bean.User;
 import org.sang.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.ResponseBody;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 /**
- * Created by sang on 2017/12/17.
+ * Created by albert on 2019/12/20.
  */
 @Controller
 public class LoginRegController {
@@ -21,13 +19,17 @@ public class LoginRegController {
     @RequestMapping("/login_error")
     @ResponseBody
     public RespBean loginError() {
-        return new RespBean("error", "登录失败!");
+
+        System.out.println("sahf");
+        return new RespBean("error", "登录失败sfg!");
     }
 
     @RequestMapping("/login_success")
     @ResponseBody
-    public RespBean loginSuccess() {
-        return new RespBean("success", "登录成功!");
+    public RespBean loginSuccess()
+    {
+
+        return new RespBean("success", "登录成功s!");
     }
 
     /**
@@ -42,17 +44,4 @@ public class LoginRegController {
         return new RespBean("error", "尚未登录，请登录!");
     }
 
-    @RequestMapping("/reg")
-    public RespBean reg(User user) {
-        int result = userService.reg(user);
-        if (result == 0) {
-            //成功
-            return new RespBean("success", "注册成功!");
-        } else if (result == 1) {
-            return new RespBean("error", "用户名重复，注册失败!");
-        } else {
-            //失败
-            return new RespBean("error", "注册失败!");
-        }
-    }
 }

@@ -1,7 +1,9 @@
 package org.sang.service;
 
 import org.sang.bean.Article;
+import org.sang.bean.Countlikes;
 import org.sang.mapper.ArticleMapper;
+import org.sang.mapper.CountlikesMapper;
 import org.sang.mapper.TagsMapper;
 import org.sang.utils.Util;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -22,8 +24,14 @@ public class ArticleService {
     ArticleMapper articleMapper;
     @Autowired
     TagsMapper tagsMapper;
+    @Autowired
+    CountlikesMapper countlikesMapper;
 
     public int addNewArticle(Article article) {
+//        Countlikes countlikes=new Countlikes();
+//        countlikes.setAid();
+//        countlikes.setPublishDate(new Timestamp(System.currentTimeMillis()));
+//        countlikesMapper.add(countlikes);
         //处理文章摘要
         if (article.getSummary() == null || "".equals(article.getSummary())) {
             //直接截取
@@ -67,6 +75,7 @@ public class ArticleService {
                     return tags;
                 }
             }
+
             return i;
         }
     }
@@ -118,6 +127,7 @@ public class ArticleService {
     }
 
     public Article getArticleById(Long aid) {
+
         Article article = articleMapper.getArticleById(aid);
         articleMapper.pvIncrement(aid);
         return article;

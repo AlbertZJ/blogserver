@@ -1,0 +1,123 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="org.sang.mapper.NoticeMapper">
+    <insert id="addNewNotice" parameterType="org.sang.bean.Notice" useGeneratedKeys="true" keyProperty="id">
+       INSERT INTO notice SET publishDate=#{publishDate},message=#{message},uid=#{uid},state=#{state}
+    </insert>
+<!--    <update id="pvIncrement" parameterType="Long">-->
+<!--        UPDATE notice set pageView=pageView+1 WHERE id=#{aid}-->
+<!--    </update>-->
+    <update id="updateNotice" parameterType="org.sang.bean.Notice">
+        UPDATE notice SET
+        message=#{message}
+        <if test="state==1">
+            ,state=1
+        </if>
+        <if test="publishDate!=null">
+            ,publishDate=#{publishDate}
+        </if>
+        WHERE id=#{id}
+    </update>
+
+    <select id="getNoticeByState" resultType="org.sang.bean.Notice">
+        SELECT n.id,n.`message`,n.`publishDate`,n.`state`,u.`nickname`,n.uid FROM notice AS n,USER AS
+        u WHERE  n.`uid`=u.`id`
+        <if test="state!=-2">
+            and n.uid=#{uid}
+        </if>
+        <if test="state!=-1 and state!=-2">
+            and n.state=#{state}
+        </if>
+        <if test="state==-2">
+            and n.state=1
+        </if>
+        <if test="keywords!=null">
+            AND message LIKE concat('%',#{keywords},'%')
+        </if>
+        ORDER BY n.publishDate DESC limit #{start},#{count};
+    </select>
+    <select id="getNoticeByStateByAdmin" resultType="org.sang.bean.Notice">
+        SELECT n.id,n.`message`,n.`publishDate`,n.`state`,u.`nickname`,n.uid FROM notice AS n,USER AS u WHERE  n.`uid`=u.`id` AND n.state=1
+        <if test="keywords!=null">
+            AND message LIKE concat('%',#{keywords},'%')
+        </if>
+        ORDER BY n.publishDate DESC limit #{start},#{count};
+    </select>
+
+    <select id="getNoticeCountByState" resultType="int">
+        SELECT count(*) FROM notice
+        <where>
+            <if test="state!=-1">
+                AND state=#{state}
+            </if>
+            <if test="uid!=null">
+                AND uid=#{uid}
+            </if>
+            <if test="keywords!=null">
+                AND message LIKE concat('%',#{keywords},'%')
+            </if>
+        </where>
+    </select>
+    <update id="updateNoticeState">
+        UPDATE notice SET state=#{state} WHERE id IN
+        <foreach collection="aids" item="aid" separator="," open="(" close=")">
+            #{aid}
+        </foreach>
+    </update>
+
+    <update id="updateNoticeStateById" >
+        UPDATE notice SET state=#{state} WHERE id = #{noticeId}
+    </update>
+    <delete id="deleteNoticeById">
+        DELETE FROM notice WHERE id IN
+        <foreach collection="aids" item="aid" open="(" close=")" separator=",">
+            #{aid}
+        </foreach>
+    </delete>
+    <select id="getNoticeById" parameterType="Long" resultMap="BaseResultMap">
+         SELECT n.id,n.message,n.publishDate,n.deleteTime,u.nickname,n.state FROM notice AS n,USER AS u WHERE n.uid=u.id and n.id=#{aid}
+    </select>
+
+
+    <resultMap id="BaseResultMap" type="org.sang.bean.Notice">
+        <id column="id" property="id"/>
+        <result column="message" property="message"/>
+        <result column="did" property="did"/>
+        <result column="uid" property="uid"/>
+        <result column="publishDate" property="publishDate"/>
+        <result column="deleteTime" property="deleteTime"/>
+        <result column="state" property="state"/>
+        <result column="nickname" property="nickname"/>
+    </resultMap>
+
+<!--    <insert id="pvStatisticsPerDay">-->
+<!--        INSERT INTO pv(countDate,pv,uid) SELECT CURRENT_DATE(),totalPv-pv,t.`uid` FROM pvview p,totalpvview t WHERE p.`uid`=t.`uid`-->
+<!--    </insert>-->
+
+<!--    <select id="getCategories" resultType="String" parameterType="long">-->
+<!--        SELECT countDate from pv WHERE uid=#{uid} ORDER by countDate limit 7-->
+<!--    </select>-->
+
+<!--    <select parameterType="long" id="getDataStatistics" resultType="int">-->
+<!--        SELECT pv from pv WHERE uid=#{uid} ORDER by countDate limit 7-->
+<!--    </select>-->
+
+
+<!--    <select id="findAll" resultType="org.sang.bean.NoticeUser">-->
+<!--        SELECT n.id,n.message,n.publishDate,n.deleteTime,u.nickname,u.nickname as dename FROM notice AS n,USER AS u WHERE n.uid=u.id and u.id=n.did-->
+<!--    </select>-->
+<!--    <update id="deleteByIds" parameterType="org.sang.bean.Notice">-->
+<!--        update notice set deleteTime=#{deleteTime}  WHERE id IN-->
+<!--        <foreach collection="ids" separator="," open="(" close=")" item="id">-->
+<!--            #{id}-->
+<!--        </foreach>-->
+<!--    </update>-->
+<!--    <update id="updateById" parameterType="org.sang.bean.Notice">-->
+<!--        UPDATE notice SET message=#{message} WHERE id=#{id}-->
+<!--    </update>-->
+<!--    <insert id="add" parameterType="org.sang.bean.Notice">-->
+<!--        INSERT INTO notice SET publishDate=#{publishDate},message=#{message},uid=#{uid}-->
+<!--    </insert>-->
+</mapper>

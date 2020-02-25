@@ -14,4 +14,11 @@ public interface RolesMapper {
     int addRoles(@Param("roles") String[] roles, @Param("uid") Long uid);
 
     List<Role> getRolesByUid(Long uid);
+    List<Role> getAllRole();
+
+    int deleteRoleByIds(@Param("ids") String[] ids);
+
+    int updateRoleById(Role role);
+
+    int addRole(Role role);
 }

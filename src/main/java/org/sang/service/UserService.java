@@ -16,7 +16,7 @@ import org.springframework.util.DigestUtils;
 import java.util.List;
 
 /**
- * Created by sang on 2017/12/17.
+ * Created by albert on 2019/12/17.
  */
 @Service
 @Transactional
@@ -52,6 +52,8 @@ public class UserService implements UserDetailsService {
         }
         //插入用户,插入之前先对密码进行加密
         user.setPassword(DigestUtils.md5DigestAsHex(user.getPassword().getBytes()));
+        // 设置默认用户名
+        user.setNickname("新用户");
         user.setEnabled(true);//用户可用
         long result = userMapper.reg(user);
         //配置用户的角色，默认都是普通用户
@@ -63,6 +65,18 @@ public class UserService implements UserDetailsService {
         } else {
             return 2;
         }
+    }
+    public int updateUserById(User user) {
+//        User loadUserByUsername = userMapper.loadUserByUsername(user.getUsername());
+
+        //插入用户,插入之前先对密码进行加密
+      //  user.setPassword(DigestUtils.md5DigestAsHex(user.getPassword().getBytes()));
+//        // 设置默认用户名
+//        user.setNickname(user.getNickname());
+//       user.setEmail(user.getEmail());
+//       user.setUserface(user.getUserface());
+        int result = userMapper.updateUserById(user);
+        return result;
     }
 
     public int updateUserEmail(String email) {
@@ -93,5 +107,14 @@ public class UserService implements UserDetailsService {
 
     public User getUserById(Long id) {
         return userMapper.getUserById(id);
+    }
+
+
+    public int updatePwdById(User user) {
+        //插入用户,插入之前先对密码进行加密
+          user.setPassword(DigestUtils.md5DigestAsHex(user.getPassword().getBytes()));
+
+        int result = userMapper.updatePwdById(user);
+        return result;
     }
 }

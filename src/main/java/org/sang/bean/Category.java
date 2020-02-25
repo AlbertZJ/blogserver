@@ -3,7 +3,7 @@ package org.sang.bean;
 import java.sql.Timestamp;
 
 /**
- * Created by sang on 2017/12/19.
+ * Created by albert on 2019/12/20.
  */
 public class Category {
     private Long id;

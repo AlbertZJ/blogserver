@@ -2,7 +2,9 @@ package org.sang.controller;
 
 import org.sang.bean.Category;
 import org.sang.bean.RespBean;
+import org.sang.bean.User;
 import org.sang.service.CategoryService;
+import org.sang.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -19,6 +21,10 @@ import java.util.List;
 public class CategoryController {
     @Autowired
     CategoryService categoryService;
+    @Autowired
+    UserService userService;
+
+
 
     @RequestMapping(value = "/all", method = RequestMethod.GET)
     public List<Category> getAllCategories() {
@@ -34,7 +40,7 @@ public class CategoryController {
         return new RespBean("error", "删除失败!");
     }
 
-    @RequestMapping(value = "/", method = RequestMethod.POST)
+    @RequestMapping(value = "/regist", method = RequestMethod.POST)
     public RespBean addNewCate(Category category) {
 
         if ("".equals(category.getCateName()) || category.getCateName() == null) {
@@ -47,6 +53,20 @@ public class CategoryController {
             return new RespBean("success", "添加成功!");
         }
         return new RespBean("error", "添加失败!");
+    }
+
+    @RequestMapping(value = "/", method = RequestMethod.POST)
+    public RespBean reg(User user) {
+        int result = userService.reg(user);
+        if (result == 0) {
+            //成功
+            return new RespBean("success", "注册成功!");
+        } else if (result == 1) {
+            return new RespBean("error", "用户名重复，注册失败!");
+        } else {
+        //失败
+        return new RespBean("error", "注册失败!");
+          }
     }
 
     @RequestMapping(value = "/", method = RequestMethod.PUT)

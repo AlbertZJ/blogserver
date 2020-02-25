@@ -6,9 +6,20 @@
     <select id="loadUserByUsername" resultType="org.sang.bean.User">
         SELECT * FROM user WHERE username=#{username}
     </select>
+
+
+
     <insert id="reg" useGeneratedKeys="true" keyProperty="id">
         INSERT INTO user set username=#{username},password=#{password},nickname=#{nickname}
     </insert>
+    <update id="updateUserById" >
+        UPDATE user set nickname=#{nickname},email=#{email},userface=#{userface} where id=#{id};
+    </update>
+
+    <update id="updatePwdById" >
+        UPDATE user set password=#{password} where id=#{id};
+    </update>
+
     <update id="updateUserEmail">
         UPDATE user set email=#{email} WHERE id=#{id}
     </update>

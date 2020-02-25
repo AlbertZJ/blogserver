@@ -32,4 +32,8 @@ public interface UserMapper {
     int setUserRoles(@Param("rids") Long[] rids, @Param("id") Long id);
 
     User getUserById(@Param("id") Long id);
+
+    int updateUserById(User user);
+
+    int updatePwdById(User user);
 }

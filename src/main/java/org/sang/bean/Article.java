@@ -4,7 +4,7 @@ import java.sql.Timestamp;
 import java.util.List;
 
 /**
- * Created by sang on 2017/12/20.
+ * Created by albert on 2019/12/20.
  */
 public class Article {
     private Long id;
@@ -23,6 +23,25 @@ public class Article {
     private String cateName;
     private List<Tags> tags;
     private String stateStr;
+    private Long countlike;
+
+    public Long getCountdislike() {
+        return countdislike;
+    }
+
+    public void setCountdislike(Long countdislike) {
+        this.countdislike = countdislike;
+    }
+
+    private Long countdislike;
+
+    public Long getCountlike() {
+        return countlike;
+    }
+
+    public void setCountlike(Long countlike) {
+        this.countlike = countlike;
+    }
 
     public String getStateStr() {
         return stateStr;

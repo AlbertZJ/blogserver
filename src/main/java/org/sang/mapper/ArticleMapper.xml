@@ -75,7 +75,12 @@
         </foreach>
     </delete>
     <select id="getArticleById" parameterType="Long" resultMap="BaseResultMap">
-        SELECT a.*,t.`tagName`,t.`id` AS tid,u.`nickname`,c.`cateName` FROM article a LEFT JOIN article_tags ats ON a.`id`=ats.`aid` LEFT JOIN tags t ON ats.`tid`=t.`id` LEFT JOIN user u ON a.`uid`=u.`id` LEFT JOIN category c ON a.`cid`=c.`id` WHERE a.id=#{aid}
+       SELECT a.*,t.`tagName`,t.`id` AS tid,u.`nickname`,c.`cateName`,co.`countlike`,co.`countdislike` FROM article a
+LEFT JOIN article_tags ats ON a.`id`=ats.`aid` LEFT JOIN tags t ON ats.`tid`=t.`id`
+LEFT JOIN USER u ON a.`uid`=u.`id`
+LEFT JOIN category c ON a.`cid`=c.`id`
+LEFT JOIN countlikes co ON co.`aid`=a.id
+WHERE a.id=#{aid}
     </select>
 
     <resultMap id="BaseResultMap" type="org.sang.bean.Article">
@@ -92,6 +97,8 @@
         <result column="summary" property="summary"/>
         <result column="nickname" property="nickname"/>
         <result column="cateName" property="cateName"/>
+        <result column="countlike" property="countlike"/>
+        <result column="countdislike" property="countdislike"/>
         <collection property="tags" ofType="org.sang.bean.Tags" column="tagName">
             <id property="id" column="tid"/>
             <result property="tagName" column="tagName"/>

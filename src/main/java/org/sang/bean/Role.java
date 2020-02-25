@@ -1,11 +1,14 @@
 package org.sang.bean;
 
+import java.sql.Timestamp;
+
 /**
- * Created by sang on 2017/12/17.
+ * Created by albert on 2019/12/17.
  */
 public class Role {
     private Long id;
     private String name;
+    private Timestamp date;
 
     public Role() {
     }
@@ -14,7 +17,13 @@ public class Role {
 
         return id;
     }
+    public Timestamp getDate() {
+        return date;
+    }
 
+    public void setDate(Timestamp date) {
+        this.date = date;
+    }
     public void setId(Long id) {
         this.id = id;
     }
