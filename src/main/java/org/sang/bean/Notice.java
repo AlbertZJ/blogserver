@@ -12,6 +12,16 @@ public class Notice {
     private Long state;
     private String nickname;
 
+    public String getNews() {
+        return news;
+    }
+
+    public void setNews(String news) {
+        this.news = news;
+    }
+
+    private String news;
+
     public String getNickname() {
         return nickname;
     }

@@ -14,5 +14,6 @@ public interface CountcomlikesMapper {
     int updatedelete(Countcomlikes countlikes);
     int updatedislike(Countcomlikes countlikes);
     int deletedislike(Countcomlikes countlikes);
+    int deleted(Countcomlikes countlikes);
 
 }

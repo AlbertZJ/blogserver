@@ -37,6 +37,23 @@
         </if>
         ORDER BY a.editTime DESC limit #{start},#{count};
     </select>
+    <select id="getArticleByStated" resultType="org.sang.bean.Article">
+        SELECT a.id,a.`title`,a.`editTime`,a.`pageView`,a.`state`,u.`nickname`,c.`cateName`,a.uid FROM article a,user
+        u,category c WHERE a.`cid`=c.`id` AND a.`uid`=u.`id`
+        <if test="state!=-2">
+            and a.uid=#{uid}
+        </if>
+        <if test="state!=-1 and state!=-2">
+            and a.state=#{state}
+        </if>
+        <if test="state==-2">
+            and a.state=1
+        </if>
+        <if test="cate!=null">
+            AND cateName LIKE concat('%',#{cate},'%')
+        </if>
+        ORDER BY a.editTime DESC limit #{start},#{count};
+    </select>
     <select id="getArticleByStateByAdmin" resultType="org.sang.bean.Article">
         SELECT a.id,a.`title`,a.`editTime`,a.`pageView`,a.`state`,u.`nickname`,c.`cateName`,a.uid FROM article a,user
         u,category c WHERE a.`cid`=c.`id` AND a.`uid`=u.`id` and a.state=1
@@ -56,6 +73,21 @@
             </if>
             <if test="keywords!=null">
                 AND title LIKE concat('%',#{keywords},'%')
+            </if>
+        </where>
+    </select>
+
+    <select id="getArticleCountByStated" resultType="int">
+        SELECT count(*) FROM article
+        <where>
+            <if test="state!=-1">
+                AND state=#{state}
+            </if>
+            <if test="uid!=null">
+                AND uid=#{uid}
+            </if>
+            <if test="cate!=null">
+                AND cid LIKE CONCAT('%',(SELECT id FROM category WHERE cateName=#{cate}),'%')
             </if>
         </where>
     </select>
@@ -106,13 +138,14 @@ WHERE a.id=#{aid}
     </resultMap>
 
     <insert id="pvStatisticsPerDay">
-        INSERT INTO pv(countDate,pv,uid) SELECT CURRENT_DATE(),totalPv-pv,t.`uid` FROM pvview p,totalpvview t WHERE p.`uid`=t.`uid`
+INSERT INTO pv(countDate,pv,uid) SELECT NOW(),SUM(pageView),uid FROM article GROUP BY uid
+--         INSERT INTO pv(countDate,pv,uid) SELECT CURRENT_DATE(),totalPv-pv,t.`uid` FROM pvview p,totalpvview t WHERE p.`uid`=t.`uid`
     </insert>
 
     <select id="getCategories" resultType="String" parameterType="long">
-        SELECT countDate from pv WHERE uid=#{uid} ORDER by countDate limit 7
+        SELECT countDate from pv WHERE uid=#{uid} ORDER by countDate DESC  limit 7
     </select>
     <select parameterType="long" id="getDataStatistics" resultType="int">
-        SELECT pv from pv WHERE uid=#{uid} ORDER by countDate limit 7
+        SELECT pv from pv WHERE uid=#{uid} ORDER by countDate DESC limit 7
     </select>
 </mapper>

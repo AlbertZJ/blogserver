@@ -7,10 +7,10 @@
         insert ignore into likes(aid,uid,publishDate,likes) values(#{aid},#{uid},#{publishDate},#{likes})
     </insert>
     <select id="getLikes" resultType="org.sang.bean.Likes">
-        SELECT * FROM likes where uid=#{uid} and aid=#{aid}
+        SELECT likes FROM likes where uid=#{uid} and aid=#{aid}
     </select>
 
-    <delete id="deletelike">
-        DELETE FROM likes WHERE uid=#{uid} and aid=#{aid} and likes=#{likes}
+    <delete id="updatelike">
+        DELETE FROM likes  WHERE uid=#{uid} AND aid=#{aid}
     </delete>
 </mapper>

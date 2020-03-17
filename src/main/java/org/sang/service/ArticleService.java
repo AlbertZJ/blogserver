@@ -11,6 +11,8 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.sql.Timestamp;
+import java.util.ArrayList;
+import java.util.Collections;
 import java.util.Date;
 import java.util.List;
 
@@ -105,10 +107,26 @@ public class ArticleService {
         return articleMapper.getArticleByState(state, start, count, uid,keywords);
     }
 
+    public List<Article> getArticleAll(Integer state, Integer page, Integer count,Long uid,String keywords) {
+        int start = (page - 1) * count;
+
+        return articleMapper.getArticleByState(state, start, count, uid,keywords);
+    }
+
+    public List<Article> getArticleByStated(Integer state, Integer page, Integer count,String cate) {
+        int start = (page - 1) * count;
+        Long uid = Util.getCurrentUser().getId();
+        return articleMapper.getArticleByStated(state, start, count, uid,cate);
+    }
+
 //    public List<Article> getArticleByStateByAdmin(Integer page, Integer count,String keywords) {
 //        int start = (page - 1) * count;
 //        return articleMapper.getArticleByStateByAdmin(start, count,keywords);
 //    }
+
+    public int getArticleCountByStated(Integer state, Long uid,String cate) {
+        return articleMapper.getArticleCountByStated(state, uid,cate);
+    }
 
     public int getArticleCountByState(Integer state, Long uid,String keywords) {
         return articleMapper.getArticleCountByState(state, uid,keywords);
@@ -142,14 +160,24 @@ public class ArticleService {
      * @return
      */
     public List<String> getCategories() {
-        return articleMapper.getCategories(Util.getCurrentUser().getId());
+        List<String> l=articleMapper.getCategories(Util.getCurrentUser().getId());
+
+        List<String> cates=new ArrayList<String>();
+        for(String a:l){
+            cates.add(a);
+        }
+        Collections.reverse(cates);
+        return cates;
     }
 
     /**
      * 获取最近七天的数据
      * @return
      */
-    public List<Integer> getDataStatistics() {
-        return articleMapper.getDataStatistics(Util.getCurrentUser().getId());
+    public List<Integer> getDataStatistics()
+    {
+        List<Integer> l= articleMapper.getDataStatistics(Util.getCurrentUser().getId());
+        Collections.reverse(l);
+        return l;
     }
 }

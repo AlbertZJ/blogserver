@@ -7,5 +7,5 @@ import org.sang.bean.Likes;
 public interface LikesMapper {
     int add(Likes likes);
     Likes getLikes(Likes likes);
-    int deletelike(Likes likes);
+    int updatelike(Likes likes);
 }

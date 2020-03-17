@@ -88,6 +88,13 @@ public class UserService implements UserDetailsService {
         return list;
     }
 
+    public List<User> getUserAll(String nickname) {
+
+      Long uid=Util.getCurrentUser().getId();
+        List<User> list = userMapper.getUserAll(nickname,uid);
+        return list;
+    }
+
     public List<Role> getAllRole() {
         return userMapper.getAllRole();
     }

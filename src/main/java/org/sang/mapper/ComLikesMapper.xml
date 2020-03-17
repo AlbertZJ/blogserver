@@ -17,6 +17,9 @@
     <delete id="deletelike">
         DELETE FROM comlikes WHERE uid=#{uid} and cid=#{cid} and likes=#{likes}
     </delete>
+    <delete id="deleted">
+        DELETE FROM comlikes WHERE cid=#{cid}
+    </delete>
     <resultMap id="BaseResultMap" type="org.sang.bean.ComLikes">
         <id column="id" property="id"/>
         <result column="likes" property="likes"/>

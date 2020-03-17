@@ -9,4 +9,5 @@ public interface ComLikesMapper {
     ComLikes getLikes(ComLikes likes);
     int deletelike(ComLikes likes);
      ComLikes number(ComLikes comLikes);
+     int deleted(ComLikes comLikes);
 }

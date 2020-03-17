@@ -15,6 +15,11 @@ public interface NoticeMapper {
 
     int updateNotice(Notice notice);
 
+    int updateNews(Notice notice);
+    Notice show(Notice notice);
+
+    Notice sys(Notice notice);
+
     List<Notice> getNoticeByState(@Param("state") Integer state, @Param("start") Integer start, @Param("count") Integer count, @Param("uid") Long uid, @Param("keywords") String keywords);
 
 //    List<Article> getArticleByStateByAdmin(@Param("start") int start, @Param("count") Integer count, @Param("keywords") String keywords);
@@ -31,11 +36,3 @@ public interface NoticeMapper {
 
     List<Integer> getDataStatistics(Long uid);
 }
-//    List<NoticeUser> findAll();
-//
-//    int deleteByIds(@Param("ids") String[] ids);
-//
-//    int updateById(Notice notice);
-//
-//    int add(Notice notice);
-//}

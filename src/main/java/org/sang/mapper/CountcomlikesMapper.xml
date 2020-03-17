@@ -33,7 +33,9 @@
     <update id="delete" parameterType="org.sang.bean.Countcomlikes">
         UPDATE countcomlikes SET countlike=#{countlike} where cid=#{cid}
     </update>
-
+    <delete id="deleted" >
+     DELETE FROM countcomlikes WHERE cid=#{cid}
+    </delete>
 
 </mapper>
 

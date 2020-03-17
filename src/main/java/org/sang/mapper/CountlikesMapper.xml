@@ -12,7 +12,7 @@
     </select>
 
     <update id="update" parameterType="org.sang.bean.Countlikes">
-       UPDATE countlikes SET countlike=countlike+1
+       UPDATE countlikes SET countlike=(SELECT SUM(likes) FROM likes WHERE  aid=#{aid})
  WHERE aid=#{aid}
     </update>
     <update id="updatedislike" parameterType="org.sang.bean.Countlikes">
@@ -21,7 +21,7 @@
     </update>
 
     <update id="updatedelete" parameterType="org.sang.bean.Countlikes">
-       UPDATE countlikes SET countlike=countlike-1
+         UPDATE countlikes SET countlike=(SELECT SUM(likes) FROM likes WHERE  aid=#{aid})
  WHERE aid=#{aid}
     </update>
     <update id="deletedislike" parameterType="org.sang.bean.Countlikes">

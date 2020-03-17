@@ -23,8 +23,8 @@
     </update>
 
     <select id="getCommentByState" resultType="org.sang.bean.Comment">
-    SELECT c.id,c.`content`,c.`publishDate`,c.`state`,u.`nickname`,c.uid FROM comments AS c,USER AS
-    u WHERE  c.`uid`=u.`id`
+        SELECT c.id,c.`content`,c.`publishDate`,c.`state`,u.`nickname`,c.uid,a.title,c.`aid` FROM comments AS c,article AS a,USER AS
+        u WHERE  c.`uid`=u.`id` AND a.`id`=c.`aid`
     <if test="state!=-2">
         and c.uid=#{uid}
     </if>
@@ -89,8 +89,6 @@
             </if>
         </where>
     </select>
-
-
     <update id="updateCommentState">
         UPDATE comments SET state=#{state} WHERE id IN
         <foreach collection="aids" item="aid" separator="," open="(" close=")">
@@ -101,6 +99,11 @@
     <update id="updateCommentStateById" >
         UPDATE comments SET state=#{state} WHERE id = #{commentId}
     </update>
+
+    <update id="updateCommentByIds" >
+        UPDATE comments SET state=2 WHERE id = #{id}
+    </update>
+
     <delete id="deleteCommentById">
         DELETE FROM comments WHERE id IN
         <foreach collection="aids" item="aid" open="(" close=")" separator=",">
@@ -112,18 +115,34 @@
     </select>
 
     <select id="getComById" parameterType="Long" resultMap="BaseResultMap">
-    SELECT c.id,c.content,c.publishDate AS comDate,u.nickname AS comName,c.state,u.userface,co.countlike,co.countdislike
+    SELECT c.id,c.content,c.publishDate AS comDate,u.nickname AS comName,c.state,u.userface,co.countlike,co.countdislike,c.parentId,c.`uid`
  FROM comments AS c,USER AS u,countcomlikes AS co
- WHERE c.uid=u.id  AND co.cid=c.`id` AND c.aid=#{aid}
+ WHERE c.uid=u.id  AND co.cid=c.`id` AND c.aid=#{aid} AND c.`parentId`=-1 and c.state=1
      </select>
+
+    <select id="getCom" parameterType="Long" resultMap="BaseResultMap">
+    SELECT c.id,c.content,c.publishDate AS comDate,u.nickname AS comName,c.state,u.userface,co.countlike,co.countdislike,c.parentId,c.`uid`
+ FROM comments AS c,USER AS u,countcomlikes AS co
+ WHERE c.uid=u.id  AND co.cid=c.`id` AND c.aid=#{aid} AND c.`parentId`=-1 AND c.`state`=1
+     </select>
+
+    <select id="getOne" parameterType="Long" resultMap="BaseResultMap">
+   SELECT c.id,c.content,c.publishDate AS comDate,u.nickname AS comName,c.state,u.userface,co.countlike,co.countdislike,c.uid
+ FROM comments AS c,USER AS u,countcomlikes AS co
+ WHERE c.uid=u.id  AND co.cid=c.`id` AND c.parentId=#{parentId} AND c.state=1
+     </select>
+
     <select id="selectcid" parameterType="org.sang.bean.Comment" resultMap="BaseResultMap">
         select id from comments where publishDate=#{publishDate} and uid=#{uid}
      </select>
 
 
     <insert id="add" parameterType="org.sang.bean.Comment">
-        insert into comments(aid,content,publishDate,parentId,uid) values(#{aid},#{content},#{publishDate},#{parentId},#{uid})
+insert into comments set aid=#{aid},content=#{content},publishDate=#{publishDate},parentId=#{parentId},uid=#{uid}
     </insert>
+    <delete id="deleteCommentByIds" >
+       DELETE  FROM comments WHERE id=#{id}
+    </delete>
 
     <resultMap id="BaseResultMap" type="org.sang.bean.Comment">
         <id column="id" property="id"/>
@@ -140,18 +159,3 @@
 
 </mapper>
 
-    <!--    <select id="findAll" resultType="org.sang.bean.CommentUser">-->
-<!--        SELECT c.id,a.title,c.content,c.publishDate,c.parentId,u.nickname FROM comments AS c,article AS a,USER AS u WHERE a.id=c.aid AND u.id=c.uid-->
-<!--    </select>-->
-<!--    <delete id="deleteByIds">-->
-<!--        DELETE FROM comments WHERE id IN-->
-<!--        <foreach collection="ids" separator="," open="(" close=")" item="id">-->
-<!--            #{id}-->
-<!--        </foreach>-->
-<!--    </delete>-->
-<!--    <update id="updateById" parameterType="org.sang.bean.Comment">-->
-<!--       update comments set content=#{content} where id=#{id}-->
-<!--    </update>-->
-
-
-<!--</mapper>-->

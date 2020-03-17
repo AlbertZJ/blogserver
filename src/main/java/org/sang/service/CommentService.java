@@ -1,13 +1,7 @@
 package org.sang.service;
 
-import org.sang.bean.Comment;
-import org.sang.bean.CommentUser;
-import org.sang.bean.Countcomlikes;
-import org.sang.bean.Notice;
-import org.sang.mapper.CommentMapper;
-import org.sang.mapper.CountcomlikesMapper;
-import org.sang.mapper.NoticeMapper;
-import org.sang.mapper.TagsMapper;
+import org.sang.bean.*;
+import org.sang.mapper.*;
 import org.sang.utils.Util;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -15,6 +9,8 @@ import org.springframework.transaction.annotation.Transactional;
 
 import javax.annotation.Resource;
 import java.sql.Timestamp;
+import java.util.ArrayList;
+import java.util.Iterator;
 import java.util.List;
 
 /**
@@ -27,6 +23,8 @@ public class CommentService {
     CommentMapper commentMapper;
     @Autowired
     CountcomlikesMapper  countcomlikesMapper;
+    @Autowired
+    ComLikesMapper comLikesMapper;
 
     public int addNewComment(Comment comment) {
         if (comment.getId() == -1) {
@@ -103,8 +101,30 @@ public class CommentService {
     }
 
     public List<Comment> getComById(Long aid) {
+        List<Comment> so=new ArrayList<Comment>();
+        List<Comment> co=commentMapper.getComById(aid);
+       // List<Comment> ao=commentMapper.getCom(aid);
 
-        return commentMapper.getComById(aid);
+            for (Comment one : co) {
+//                if (one.getParentId() == -1) {
+                      so.add(one);
+//                }
+               // if (one.getParentId() != -1) {
+                    List<Comment> comments = commentMapper.getOne(one.getId());
+                    for (Comment re : comments) {
+                        re.setComname(re.getComname()+"  回复  "+one.getComname());
+                        so.add(re);
+                    }
+               // }
+            }
+
+//        Iterator<Comment> it=co.iterator();
+//        while (it.hasNext()){
+//
+//            Comment one=it.next();
+//
+//        }
+        return so;
     }
 
 //    public Comment getComById(Long aid) {
@@ -113,13 +133,6 @@ public class CommentService {
 //        return comment;
 //    }
 
-    /**
-     * 获取最近七天的日期
-     * @return
-     */
-    //  public List<String> getCategories() {
-//        return NoticesMapper.getCategories(Util.getCurrentUser().getId());
-//    }
 
 
     /**
@@ -130,59 +143,59 @@ public class CommentService {
         return commentMapper.getDataStatistics(Util.getCurrentUser().getId());
     }
 
-//    public int addComment(Comment comment,Long aid,String content) {
-//        //添加操作
-//        Timestamp timestamp = new Timestamp(System.currentTimeMillis());
-//
-//        comment.setUid(Util.getCurrentUser().getId());
-//        comment.setParentId(aid);
-//        int result=commentMapper.addComment(comment);
-//        Comment co=new Comment();
-//        co.setPublishDate(timestamp);
-//        //设置当前用户(通过当前用户id)
-//        co.setUid(Util.getCurrentUser().getId());
-//        Comment cid=new Comment();
-//        cid= commentMapper.selectcid(co);
-//        Countcomlikes countcomlikes=new Countcomlikes();
-//        countcomlikes.setCid(cid.getId());
-//        countcomlikes.setPublishDate(new Timestamp(System.currentTimeMillis()));
-//        countcomlikesMapper.add(countcomlikes);
-//
-//        return result;
-//    }
 
     public int add(Comment comment,Long aid,String content) {
         //添加操作
         Timestamp timestamp = new Timestamp(System.currentTimeMillis());
         comment.setPublishDate(timestamp);
         int result=commentMapper.add(comment);
+        if(result==1){
+//            Comment co=new Comment();
+//            co.setPublishDate(timestamp);
+//            //设置当前用户(通过当前用户id)
+//            co.setUid(Util.getCurrentUser().getId());
+            Comment cids=new Comment();
+            cids= commentMapper.selectcid(comment);
+
+                Countcomlikes countcomlikes=new Countcomlikes();
+                countcomlikes.setCid(cids.getId());
+                countcomlikes.setPublishDate(new Timestamp(System.currentTimeMillis()));
+                countcomlikesMapper.add(countcomlikes);
+
+        }
+
+
+
+        return result;
+    }
+
+    public int adds(Comment comment,Long aid,String content) {
+        //添加操作
+        Timestamp timestamp = new Timestamp(System.currentTimeMillis());
+        comment.setPublishDate(timestamp);
+        comment.setUid(Util.getCurrentUser().getId());
+        int result=commentMapper.add(comment);
+
+
         Comment co=new Comment();
         co.setPublishDate(timestamp);
         //设置当前用户(通过当前用户id)
         co.setUid(Util.getCurrentUser().getId());
         Comment cid=new Comment();
-          cid= commentMapper.selectcid(co);
+        cid= commentMapper.selectcid(co);
         Countcomlikes countcomlikes=new Countcomlikes();
- countcomlikes.setCid(cid.getId());
-       countcomlikes.setPublishDate(new Timestamp(System.currentTimeMillis()));
-       countcomlikesMapper.add(countcomlikes);
+        countcomlikes.setCid(cid.getId());
+        countcomlikes.setPublishDate(new Timestamp(System.currentTimeMillis()));
+        countcomlikesMapper.add(countcomlikes);
 
         return result;
     }
-}
-//    public List<CommentUser> findAll() {
-//        return commentMapper.findAll();
-//    }
-//
-//    public boolean deleteByIds(String ids) {
-//        String[] split = ids.split(",");
-//        int result = commentMapper.deleteByIds(split);
-//        return result == split.length;
-//    }
-//
-//    public int updateById(Comment comment) {
-//        return commentMapper.updateById(comment);
-//    }
-//
 
-//}
+
+    public int deleteCommentByIds(Long id) {
+        Comment comment=new Comment();
+        comment.setId(id);
+        int result = commentMapper.updateCommentByIds(comment);
+        return result;
+    }
+}

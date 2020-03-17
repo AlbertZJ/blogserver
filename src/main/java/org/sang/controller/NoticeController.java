@@ -43,6 +43,16 @@ public class NoticeController {
         return map;
     }
 
+    @RequestMapping(value = "/show", method = RequestMethod.GET)
+    public Notice show() {
+        return noticesService.show();
+    }
+
+    @RequestMapping(value = "/sys", method = RequestMethod.GET)
+    public Notice sys() {
+        return noticesService.sys();
+    }
+
     @RequestMapping(value = "/{aid}", method = RequestMethod.GET)
     public Notice getNoticeById(@PathVariable Long aid) {
         return noticesService.getNoticeById(aid);

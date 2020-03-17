@@ -22,17 +22,11 @@ import java.util.List;
 public class NoticeService {
 
     @Autowired
-    NoticeMapper NoticeMapper;
+    NoticeMapper noticeMapper;
     @Autowired
     TagsMapper tagsMapper;
 
     public int addNewNotice(Notice notice) {
-        //处理文章摘要
-//        if (notice.getSummary() == null || "".equals(notice.getSummary())) {
-//            //直接截取
-//            String stripHtml = stripHtml(notice.getHtmlContent());
-//            notice.setSummary(stripHtml.substring(0, stripHtml.length() > 50 ? 50 : stripHtml.length()));
-//        }
         if (notice.getId() == -1) {
             //添加操作
             Timestamp timestamp = new Timestamp(System.currentTimeMillis());
@@ -43,33 +37,24 @@ public class NoticeService {
             //   notice.setEditTime(timestamp);
             //设置当前用户
             notice.setUid(Util.getCurrentUser().getId());
-            int i = NoticeMapper.addNewNotice(notice);
-            //打标签
-            // String[] dynamicTags = notice.getDynamicTags();
-//            if (dynamicTags != null && dynamicTags.length > 0) {
-//                int tags = addTagsToArticle(dynamicTags, notice.getId());
-//                if (tags == -1) {
-//                    return tags;
-//                }
-//            }
+            if(notice.getNews().equals("是")){
+                noticeMapper.updateNews(notice);
+            }
+            int i = noticeMapper.addNewNotice(notice);
             return i;
         } else {
             Timestamp timestamp = new Timestamp(System.currentTimeMillis());
+            notice.setUid(Util.getCurrentUser().getId());
             if (notice.getState() == 1) {
                 //设置发表日期
                 notice.setPublishDate(timestamp);
             }
+            if(notice.getNews().equals("是")){
+                noticeMapper.updateNews(notice);
+            }
             //更新
             // notice.setEditTime(new Timestamp(System.currentTimeMillis()));
-            int i = NoticeMapper.updateNotice(notice);
-            //修改标签
-            // String[] dynamicTags = notice.getDynamicTags();
-//            if (dynamicTags != null && dynamicTags.length > 0) {
-//                int tags = addTagsToArticle(dynamicTags, notice.getId());
-//                if (tags == -1) {
-//                    return tags;
-//                }
-//            }
+            int i = noticeMapper.updateNotice(notice);
             return i;
         }
     }
@@ -79,7 +64,7 @@ public class NoticeService {
     public List<Notice> getNoticeByState(Integer state, Integer page, Integer count,String keywords) {
         int start = (page - 1) * count;
         Long uid = Util.getCurrentUser().getId();
-        return NoticeMapper.getNoticeByState(state, start, count, uid,keywords);
+        return noticeMapper.getNoticeByState(state, start, count, uid,keywords);
     }
 
 //    public List<Article> getArticleByStateByAdmin(Integer page, Integer count,String keywords) {
@@ -88,27 +73,42 @@ public class NoticeService {
 //    }
 
     public int getNoticeCountByState(Integer state, Long uid,String keywords) {
-        return NoticeMapper.getNoticeCountByState(state, uid,keywords);
+        return noticeMapper.getNoticeCountByState(state, uid,keywords);
     }
 
     public int updateNoticeState(Long[] aids, Integer state) {
         if (state == 2) {
-            return NoticeMapper.deleteNoticeById(aids);
+            return noticeMapper.deleteNoticeById(aids);
         } else {
-            return NoticeMapper.updateNoticeState(aids, 2);//放入到回收站中
+            return noticeMapper.updateNoticeState(aids, 2);//放入到回收站中
         }
     }
 
     public int restoreNotice(Integer noticeId) {
-        return NoticeMapper.updateNoticeStateById(noticeId, 1); // 从回收站还原在原处
+        return noticeMapper.updateNoticeStateById(noticeId, 1); // 从回收站还原在原处
     }
 
     public Notice getNoticeById(Long aid) {
-        Notice notice = NoticeMapper.getNoticeById(aid);
+        Notice notice = noticeMapper.getNoticeById(aid);
         // NoticeMapper.pvIncrement(aid);
         return notice;
     }
 
+public Notice show(){
+        Notice notices=new Notice();
+        notices.setNews("是");
+        notices.setUid(Util.getCurrentUser().getId());
+        Notice notice =noticeMapper.show(notices);
+        return  notice;
+}
+
+
+    public Notice sys(){
+        Notice notices=new Notice();
+        notices.setNews("是");
+        Notice notice =noticeMapper.sys(notices);
+        return  notice;
+    }
 
     /**
      * 获取最近七天的日期
@@ -124,31 +124,6 @@ public class NoticeService {
      * @return
      */
     public List<Integer> getDataStatistics() {
-        return NoticeMapper.getDataStatistics(Util.getCurrentUser().getId());
+        return noticeMapper.getDataStatistics(Util.getCurrentUser().getId());
     }
 }
-
-//    @Autowired
-//    NoticeMapper noticeMapper;
-//
-//    public List<NoticeUser> findAll() {
-//        return noticeMapper.findAll();
-//    }
-//
-//    public boolean deleteByIds(String ids) {
-//        Notice notice = null;
-//        notice.setDeleteTime(new Timestamp(System.currentTimeMillis()));
-//        String[] split = ids.split(",");
-//        int result = noticeMapper.deleteByIds(split);
-//        return result == split.length;
-//    }
-//
-//    public int updateById(Notice notice) {
-//        return noticeMapper.updateById(notice);
-//    }
-//
-//    public int add(Notice notice) {
-//        notice.setPublishDate(new Timestamp(System.currentTimeMillis()));
-//        return noticeMapper.add(notice);
-//    }
-//}

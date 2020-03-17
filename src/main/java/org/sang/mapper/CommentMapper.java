@@ -33,26 +33,17 @@ public interface CommentMapper {
     int updateCommentStateById(@Param("commentId") Integer commentId, @Param("state") Integer state);
 
     int deleteCommentById(@Param("aids") Long[] aids);
+    int updateCommentByIds(Comment comment);
 
     Comment getCommentById(Long aid);
     Comment selectcid(Comment comment);
 
     List<Comment> getComById(Long aid);
+    List<Comment> getCom(Long aid);
+    List<Comment> getOne(Long parentId);
 
     List<Integer> getDataStatistics(Long uid);
 
     int add(Comment comment);
-
+int deleteCommentByIds(Long id);
 }
-    // @Insert("insert into comments(aid,content,publishDate,parentId,uid) values(#{aid},#{content},#{publishDate},#{parentId},#{uid})")
-//    int add(Comment comment);
-//
-//   // @Delete("delete from comments where id=1")
-//    int deleteByIds(@Param("ids") String[] ids);
-//
-//    // @Select("SELECT c.id,a.title,c.content,c.publishDate,c.parentId,u.nickname FROM comments AS c,article AS a,USER AS u WHERE a.id=c.aid AND u.id=c.uid")
-//    List<CommentUser> findAll();
-//
-//    // @Update("update comment set content=#{content},publishDate=#{publishDate},parentId=#{parentId}")
-//    int updateById(Comment comment);
-//}

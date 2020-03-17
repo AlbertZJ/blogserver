@@ -21,8 +21,6 @@ public class UserController {
     @Autowired
     UserService userService;
 
-
-
     @RequestMapping("/currentUserName")
     public String currentUserName() {
         return Util.getCurrentUser().getNickname();
@@ -37,6 +35,41 @@ public class UserController {
     public String currentUserEmail() {
         return Util.getCurrentUser().getEmail();
     }
+
+    @RequestMapping("/isArticle")
+    public Boolean isArticle() {
+        List<GrantedAuthority> authorities = Util.getCurrentUser().getAuthorities();
+        for (GrantedAuthority authority : authorities) {
+            if (authority.getAuthority().contains("文章管理")) {
+                return true;
+            }
+        }
+        return false;
+    }
+
+    @RequestMapping("/isComment")
+    public Boolean isComment() {
+        List<GrantedAuthority> authorities = Util.getCurrentUser().getAuthorities();
+        for (GrantedAuthority authority : authorities) {
+            if (authority.getAuthority().contains("留言管理")) {
+                return true;
+            }
+        }
+        return false;
+    }
+
+    @RequestMapping("/isNotice")
+    public Boolean isNotice() {
+        List<GrantedAuthority> authorities = Util.getCurrentUser().getAuthorities();
+        for (GrantedAuthority authority : authorities) {
+            if (authority.getAuthority().contains("通知管理")) {
+                return true;
+            }
+        }
+        return false;
+    }
+
+
 
     @RequestMapping("/isAdmin")
     public Boolean isAdmin() {

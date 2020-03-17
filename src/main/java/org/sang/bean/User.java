@@ -23,6 +23,16 @@ public class User implements UserDetails {
     private String userface;
     private Timestamp regTime;
 
+    public Long getUid() {
+        return uid;
+    }
+
+    public void setUid(Long uid) {
+        this.uid = uid;
+    }
+
+    private Long uid;
+
     public Timestamp getRegTime() {
         return regTime;
     }

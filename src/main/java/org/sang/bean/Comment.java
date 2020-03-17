@@ -17,6 +17,15 @@ public class Comment {
     private Long countdislike;
     private Long countlike;
     private String nickname;
+    private String title;
+
+    public String getTitle() {
+        return title;
+    }
+
+    public void setTitle(String title) {
+        this.title = title;
+    }
 
     public Long getCountdislike() {
         return countdislike;

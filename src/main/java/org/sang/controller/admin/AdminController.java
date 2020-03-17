@@ -31,6 +31,15 @@ public class AdminController {
         return map;
     }
 
+    @RequestMapping(value = "/article/cate", method = RequestMethod.GET)
+    public Map<String, Object> getArticleByStateByAdmined(@RequestParam(value = "page", defaultValue = "1") Integer page, @RequestParam(value = "count", defaultValue = "6") Integer count, String cate) {
+        List<Article> articles = articleService.getArticleByStated(-2, page, count, cate);
+        Map<String, Object> map = new HashMap<>();
+        map.put("articles", articles);
+        map.put("totalCount", articleService.getArticleCountByStated(1, null, cate));
+        return map;
+    }
+
     @RequestMapping(value = "/article/dustbin", method = RequestMethod.PUT)
     public RespBean updateArticleState(Long[] aids, Integer state) {
         if (articleService.updateArticleState(aids, state) == aids.length) {

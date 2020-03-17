@@ -21,6 +21,8 @@ public interface UserMapper {
 
     List<User> getUserByNickname(@Param("nickname") String nickname);
 
+    List<User> getUserAll(@Param("nickname") String nickname,@Param("uid") Long uid);
+
     List<Role> getAllRole();
 
     int updateUserEnabled(@Param("enabled") Boolean enabled, @Param("uid") Long uid);

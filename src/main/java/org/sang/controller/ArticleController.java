@@ -80,6 +80,26 @@ public class ArticleController {
         return map;
     }
 
+    @RequestMapping(value = "/alls", method = RequestMethod.GET)
+    public Map<String, Object> getArticleByStates( Integer state, @RequestParam(value = "page", defaultValue = "1") Integer page, @RequestParam(value = "count", defaultValue = "6") Integer count,Long uid,String keywords) {
+        int totalCount = articleService.getArticleCountByState(state, uid,keywords);
+        List<Article> articles = articleService.getArticleAll(state, page, count,uid,keywords);
+        Map<String, Object> map = new HashMap<>();
+        map.put("totalCount", totalCount);
+        map.put("articles", articles);
+        return map;
+    }
+
+    @RequestMapping(value = "/cate", method = RequestMethod.GET)
+    public Map<String, Object> getArticleByStated(@RequestParam(value = "state", defaultValue = "-1") Integer state, @RequestParam(value = "page", defaultValue = "1") Integer page, @RequestParam(value = "count", defaultValue = "6") Integer count,String cate) {
+        int totalCount = articleService.getArticleCountByStated(state, Util.getCurrentUser().getId(),cate);
+        List<Article> articles = articleService.getArticleByStated(state, page, count,cate);
+        Map<String, Object> map = new HashMap<>();
+        map.put("totalCount", totalCount);
+        map.put("articles", articles);
+        return map;
+    }
+
     @RequestMapping(value = "/{aid}", method = RequestMethod.GET)
     public Article getArticleById(@PathVariable Long aid) {
         return articleService.getArticleById(aid);
