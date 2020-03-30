@@ -112,7 +112,7 @@ public class CommentService {
                // if (one.getParentId() != -1) {
                     List<Comment> comments = commentMapper.getOne(one.getId());
                     for (Comment re : comments) {
-                        re.setComname(re.getComname()+"  回复  "+one.getComname());
+                        re.setComname(re.getComname()+"  回复  "+one.getComname()+":");
                         so.add(re);
                     }
                // }
@@ -144,28 +144,42 @@ public class CommentService {
     }
 
 
-    public int add(Comment comment,Long aid,String content) {
+    public int add(Comment comment,Long aid,String content,Timestamp timestamp) {
         //添加操作
-        Timestamp timestamp = new Timestamp(System.currentTimeMillis());
+       // Timestamp timestamp = new Timestamp(System.currentTimeMillis());
         comment.setPublishDate(timestamp);
         int result=commentMapper.add(comment);
-        if(result==1){
-//            Comment co=new Comment();
-//            co.setPublishDate(timestamp);
-//            //设置当前用户(通过当前用户id)
-//            co.setUid(Util.getCurrentUser().getId());
-            Comment cids=new Comment();
-            cids= commentMapper.selectcid(comment);
+//        if(result==1){
+////            Comment co=new Comment();
+////            co.setPublishDate(timestamp);
+////            //设置当前用户(通过当前用户id)
+////            co.setUid(Util.getCurrentUser().getId());
+//            Comment cids=new Comment();
+//            cids= commentMapper.selectcid(comment);
+//
+//                Countcomlikes countcomlikes=new Countcomlikes();
+//                countcomlikes.setCid(cids.getId());
+//                countcomlikes.setPublishDate(new Timestamp(System.currentTimeMillis()));
+//                countcomlikesMapper.add(countcomlikes);
+//
+//        }
 
-                Countcomlikes countcomlikes=new Countcomlikes();
-                countcomlikes.setCid(cids.getId());
-                countcomlikes.setPublishDate(new Timestamp(System.currentTimeMillis()));
-                countcomlikesMapper.add(countcomlikes);
+        return result;
+    }
 
-        }
+    public Comment ls(Comment comment,Timestamp timestamp) {
+        comment.setPublishDate(timestamp);
+        Comment cids=new Comment();
+        cids= commentMapper.selectcid(comment);
 
+        return cids;
+    }
 
-
+    public int coun(Comment cids) {
+        Countcomlikes countcomlikes=new Countcomlikes();
+        countcomlikes.setCid(cids.getId());
+        countcomlikes.setPublishDate(new Timestamp(System.currentTimeMillis()));
+        int result=countcomlikesMapper.add(countcomlikes);
         return result;
     }
 

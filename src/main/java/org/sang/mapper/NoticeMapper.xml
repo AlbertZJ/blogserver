@@ -3,12 +3,14 @@
         PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
         "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="org.sang.mapper.NoticeMapper">
+
     <insert id="addNewNotice" parameterType="org.sang.bean.Notice" useGeneratedKeys="true" keyProperty="id">
-       INSERT INTO notice SET publishDate=#{publishDate},message=#{message},uid=#{uid},state=#{state},news=#{news}
+       INSERT INTO notice SET title=#{title},mdContent=#{mdContent},htmlContent=#{htmlContent},publishDate=#{publishDate},message=#{message},uid=#{uid},state=#{state},news=#{news}
     </insert>
+
     <update id="updateNotice" parameterType="org.sang.bean.Notice">
         UPDATE notice SET
-        message=#{message}
+        title=#{title},mdContent=#{mdContent},htmlContent=#{htmlContent},message=#{message}
         <if test='news=="是"'>
             ,news=#{news}
         </if>
@@ -27,7 +29,7 @@
     </update>
 
     <select id="getNoticeByState" resultType="org.sang.bean.Notice">
-        SELECT n.id,n.`message`,n.`publishDate`,n.`state`,u.`nickname`,n.uid,n.`news` FROM notice AS n,USER AS
+        SELECT n.id,n.title,n.`message`,n.`publishDate`,n.`state`,u.`nickname`,n.uid,n.`news` FROM notice AS n,USER AS
         u WHERE  n.`uid`=u.`id`
         <if test="state!=-2">
             and n.uid=#{uid}
@@ -82,7 +84,8 @@
         </foreach>
     </delete>
     <select id="getNoticeById" parameterType="Long" resultMap="BaseResultMap">
-         SELECT n.id,n.message,n.publishDate,n.deleteTime,u.nickname,n.state,n.`news` FROM notice AS n,USER AS u WHERE n.uid=u.id and n.id=#{aid}
+         SELECT n.id,n.message,n.`title`,n.`mdContent`,n.`htmlContent`,n.publishDate,u.nickname,n.state,n.`news`
+ FROM notice AS n,USER AS u WHERE n.uid=u.id AND n.id=#{aid}
     </select>
 
     <select id="show" resultMap="BaseResultMap">
@@ -90,16 +93,18 @@
     </select>
 
     <select id="sys" resultMap="BaseResultMap">
-SELECT n.id,n.message,n.publishDate,n.state,n.news FROM notice n WHERE  n.news=#{news} AND
-        uid IN (SELECT u.id FROM USER u,roles_user ru ,roles r WHERE ru.rid=r.id AND r.name="超级管理员" AND ru.uid=u.id)    </select>
+SELECT n.id,n.`title`,n.`htmlContent`,n.message,n.publishDate,n.state,n.news FROM notice n WHERE  n.news=#{news} AND
+        uid IN (SELECT u.id FROM USER u,roles_user ru ,roles r WHERE ru.rid=r.id AND r.name="超级管理员" AND ru.uid=u.id)
+         </select>
 
     <resultMap id="BaseResultMap" type="org.sang.bean.Notice">
         <id column="id" property="id"/>
         <result column="message" property="message"/>
-        <result column="did" property="did"/>
+        <result column="title" property="title"/>
+        <result column="news" property="news"/>
+        <result column="htmlContent" property="htmlContent"/>
         <result column="uid" property="uid"/>
         <result column="publishDate" property="publishDate"/>
-        <result column="deleteTime" property="deleteTime"/>
         <result column="state" property="state"/>
         <result column="nickname" property="nickname"/>
     </resultMap>

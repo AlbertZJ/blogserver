@@ -29,6 +29,8 @@ public interface UserMapper {
 
     int deleteUserById(Long uid);
 
+    int deleteUserByIds(Long uid);
+
     int deleteUserRolesByUid(Long id);
 
     int setUserRoles(@Param("rids") Long[] rids, @Param("id") Long id);

@@ -21,6 +21,11 @@ public class UserController {
     @Autowired
     UserService userService;
 
+    @RequestMapping(value = "/user/all", method = RequestMethod.GET)
+    public List<User> getUserAll(String nickname) {
+        return userService.getUserAll(nickname);
+    }
+
     @RequestMapping("/currentUserName")
     public String currentUserName() {
         return Util.getCurrentUser().getNickname();

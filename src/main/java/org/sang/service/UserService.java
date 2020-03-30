@@ -102,7 +102,9 @@ public class UserService implements UserDetailsService {
     public int updateUserEnabled(Boolean enabled, Long uid) {
         return userMapper.updateUserEnabled(enabled, uid);
     }
-
+    public int deleteUserByIds(Long uid) {
+        return userMapper.deleteUserByIds(uid);
+    }
     public int deleteUserById(Long uid) {
         return userMapper.deleteUserById(uid);
     }

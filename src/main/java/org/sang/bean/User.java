@@ -21,6 +21,16 @@ public class User implements UserDetails {
     private List<Role> roles;
     private String email;
     private String userface;
+
+    public Long getState() {
+        return state;
+    }
+
+    public void setState(Long state) {
+        this.state = state;
+    }
+
+    private Long state;
     private Timestamp regTime;
 
     public Long getUid() {

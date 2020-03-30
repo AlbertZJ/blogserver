@@ -54,6 +54,15 @@ public class UserManaController {
         }
     }
 
+    @RequestMapping(value = "/user/{uid}", method = RequestMethod.PUT)
+    public RespBean deleteUserByIds(@PathVariable Long uid) {
+        if (userService.deleteUserByIds(uid) == 1) {
+            return new RespBean("success", "删除成功!");
+        } else {
+            return new RespBean("error", "删除失败!");
+        }
+    }
+
     @RequestMapping(value = "/user/{uid}", method = RequestMethod.DELETE)
     public RespBean deleteUserById(@PathVariable Long uid) {
         if (userService.deleteUserById(uid) == 1) {

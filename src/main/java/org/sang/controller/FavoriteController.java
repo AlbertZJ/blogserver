@@ -30,7 +30,7 @@ public class FavoriteController {
 
     @RequestMapping(value = "/selecteds", method = RequestMethod.POST)
     public Favorite selecteds(Favorite favorite) {
-        return favoriteService.selected(favorite);
+        return favoriteService.selecteds(favorite);
     }
 
     @RequestMapping(value = "/add", method = RequestMethod.POST)
@@ -58,5 +58,13 @@ public class FavoriteController {
             return new RespBean("success", "收藏成功!");
         }
         return new RespBean("error", "收藏失败!");
+    }
+    @RequestMapping(value = "/changeds", method = RequestMethod.PUT)
+    public RespBean updateFavorites(Favorite favorite) {
+        int i = favoriteService.updateFavorite(favorite);
+        if (i == 1) {
+            return new RespBean("success", "取消收藏成功!");
+        }
+        return new RespBean("error", "取消收藏失败!");
     }
 }

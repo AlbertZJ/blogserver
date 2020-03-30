@@ -1,7 +1,5 @@
 package org.sang.service;
 
-
-
 import org.sang.bean.Notice;
 import org.sang.bean.NoticeUser;
 import org.sang.mapper.NoticeMapper;
@@ -27,13 +25,22 @@ public class NoticeService {
     TagsMapper tagsMapper;
 
     public int addNewNotice(Notice notice) {
+        //处理通知摘要
+        if (notice.getMessage() == null || "".equals(notice.getMessage())) {
+            //直接截取
+            String stripHtml = stripHtml(notice.getHtmlContent());
+            notice.setMessage(stripHtml.substring(0, stripHtml.length() > 50 ? 50 : stripHtml.length()));
+        }
         if (notice.getId() == -1) {
             //添加操作
             Timestamp timestamp = new Timestamp(System.currentTimeMillis());
             if (notice.getState() == 1) {
                 //设置发表日期
                 notice.setPublishDate(timestamp);
+            }else if(notice.getState() == 0){
+                notice.setPublishDate(timestamp);
             }
+
             //   notice.setEditTime(timestamp);
             //设置当前用户
             notice.setUid(Util.getCurrentUser().getId());
@@ -59,7 +66,12 @@ public class NoticeService {
         }
     }
 
-
+    public String stripHtml(String content) {
+        content = content.replaceAll("<p .*?>", "");
+        content = content.replaceAll("<br\\s*/?>", "");
+        content = content.replaceAll("\\<.*?>", "");
+        return content;
+    }
 
     public List<Notice> getNoticeByState(Integer state, Integer page, Integer count,String keywords) {
         int start = (page - 1) * count;
@@ -67,9 +79,9 @@ public class NoticeService {
         return noticeMapper.getNoticeByState(state, start, count, uid,keywords);
     }
 
-//    public List<Article> getArticleByStateByAdmin(Integer page, Integer count,String keywords) {
+//    public List<notice> getnoticeByStateByAdmin(Integer page, Integer count,String keywords) {
 //        int start = (page - 1) * count;
-//        return articleMapper.getArticleByStateByAdmin(start, count,keywords);
+//        return noticeMapper.getnoticeByStateByAdmin(start, count,keywords);
 //    }
 
     public int getNoticeCountByState(Integer state, Long uid,String keywords) {

@@ -7,6 +7,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
 import javax.annotation.Resource;
+import java.sql.Timestamp;
 import java.text.SimpleDateFormat;
 import java.util.HashMap;
 import java.util.List;
@@ -86,9 +87,16 @@ public class CommentController {
         if ("".equals(comment.getContent()) || comment.getContent() == null) {
             return new RespBean("error", "请输入评论内容!");
         }
-         int result = commentService.add(comment,aid,content);
+
+        Timestamp timestamp = new Timestamp(System.currentTimeMillis());
+         int result = commentService.add(comment,aid,content,timestamp);
         if (result == 1) {
-            return new RespBean("success", "添加成功!");
+            Comment ls = commentService.ls(comment,timestamp);
+            int coun = commentService.coun(ls);
+            if(coun==1){
+                return new RespBean("success", "添加成功!");
+            }
+            return new RespBean("error", "添加失败!");
         }
         return new RespBean("error", "添加失败!");
     }
