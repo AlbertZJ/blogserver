@@ -14,8 +14,8 @@
 还有其他一些琐碎的技术我就不在这里一一列举了。
 
 快速运行
-1.克隆本项目到本地
-
+1.克隆本项目到本地  
+git clone https://github.com/AlbertZJ/blogserver.git
 
 项目依赖
 1.vue-echarts
