@@ -3,10 +3,12 @@
         PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
         "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="org.sang.mapper.CountlikesMapper">
-<!--    针对唯一列值，ignore有效-->
+
+    <!--    针对唯一列值，ignore有效-->
     <insert id="add" parameterType="org.sang.bean.Countlikes">
         insert ignore into countlikes(countlike,countdislike,aid,publishDate) values(0,0,#{aid},#{publishDate})
     </insert>
+
     <select id="selects" resultType="org.sang.bean.Countlikes">
         SELECT * FROM countlikes where aid=#{aid}
     </select>
@@ -15,6 +17,7 @@
        UPDATE countlikes SET countlike=(SELECT SUM(likes) FROM likes WHERE  aid=#{aid})
  WHERE aid=#{aid}
     </update>
+
     <update id="updatedislike" parameterType="org.sang.bean.Countlikes">
        UPDATE countlikes SET countdislike=countdislike+1
  WHERE aid=#{aid}
@@ -24,6 +27,7 @@
          UPDATE countlikes SET countlike=(SELECT SUM(likes) FROM likes WHERE  aid=#{aid})
  WHERE aid=#{aid}
     </update>
+
     <update id="deletedislike" parameterType="org.sang.bean.Countlikes">
        UPDATE countlikes SET countdislike=countdislike-1
  WHERE aid=#{aid}
@@ -32,7 +36,5 @@
     <update id="delete" parameterType="org.sang.bean.Countlikes">
         UPDATE countlikes SET countlike=countlike-1 where aid=#{aid}
     </update>
-
-
 </mapper>
 

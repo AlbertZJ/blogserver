@@ -2,8 +2,16 @@ package org.sang.bean;
 
 import java.sql.Timestamp;
 
+/**
+ * Created by albert on 2019/12/19.
+ */
 public class Likes {
+
     private Long id;
+    private int likes;
+    private Long uid;
+    private Long aid;
+    private Timestamp publishDate;
 
     public int getLikes() {
         return likes;
@@ -13,11 +21,6 @@ public class Likes {
         this.likes = likes;
     }
 
-    private int likes;
-    private Long uid;
-    private Long aid;
-    private Timestamp publishDate;
-
     public Long getId() {
         return id;
     }
@@ -25,7 +28,6 @@ public class Likes {
     public void setId(Long id) {
         this.id = id;
     }
-
 
 
     public Long getUid() {

@@ -3,7 +3,11 @@ package org.sang.bean;
 import java.sql.Timestamp;
 import java.util.List;
 
+/**
+ * Created by albert on 2019/12/19.
+ */
 public class ArticleCom {
+
     private Long id;
     private String title;
     private String mdContent;
@@ -19,6 +23,11 @@ public class ArticleCom {
     private String nickname;
     private String cateName;
     private List<Tags> tags;
+    private String stateStr;
+    private Long aid;
+    private String content;
+    private Timestamp comDate;
+    private Long parentId;
 
     public Long getId() {
         return id;
@@ -172,11 +181,6 @@ public class ArticleCom {
         this.parentId = parentId;
     }
 
-    private String stateStr;
-
-    private Long aid;
-    private String content;
-
     public Timestamp getComDate() {
         return comDate;
     }
@@ -184,8 +188,5 @@ public class ArticleCom {
     public void setComDate(Timestamp comDate) {
         this.comDate = comDate;
     }
-
-    private Timestamp comDate;
-    private Long parentId;
 
 }

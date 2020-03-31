@@ -3,12 +3,15 @@
         PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
         "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="org.sang.mapper.ArticleMapper">
+
     <insert id="addNewArticle" parameterType="org.sang.bean.Article" useGeneratedKeys="true" keyProperty="id">
         INSERT INTO article SET title=#{title},mdContent=#{mdContent},htmlContent=#{htmlContent},summary=#{summary},cid=#{cid},uid=#{uid},publishDate=#{publishDate},state=#{state},editTime=#{editTime}
     </insert>
+
     <update id="pvIncrement" parameterType="Long">
         UPDATE article set pageView=pageView+1 WHERE id=#{aid}
     </update>
+
     <update id="updateArticle" parameterType="org.sang.bean.Article">
         UPDATE article SET
         title=#{title},mdContent=#{mdContent},htmlContent=#{htmlContent},summary=#{summary},cid=#{cid},editTime=#{editTime}
@@ -20,6 +23,7 @@
         </if>
         WHERE id=#{id}
     </update>
+
     <select id="getArticleByState" resultType="org.sang.bean.Article">
         SELECT a.id,a.`title`,a.`editTime`,a.`pageView`,a.`state`,u.`nickname`,c.`cateName`,a.uid FROM article a,user
         u,category c WHERE a.`cid`=c.`id` AND a.`uid`=u.`id`
@@ -37,6 +41,7 @@
         </if>
         ORDER BY a.editTime DESC limit #{start},#{count};
     </select>
+
     <select id="getArticleByStated" resultType="org.sang.bean.Article">
         SELECT a.id,a.`title`,a.`editTime`,a.`pageView`,a.`state`,u.`nickname`,c.`cateName`,a.uid FROM article a,user
         u,category c WHERE a.`cid`=c.`id` AND a.`uid`=u.`id`
@@ -54,6 +59,7 @@
         </if>
         ORDER BY a.editTime DESC limit #{start},#{count};
     </select>
+
     <select id="getArticleByStateByAdmin" resultType="org.sang.bean.Article">
         SELECT a.id,a.`title`,a.`editTime`,a.`pageView`,a.`state`,u.`nickname`,c.`cateName`,a.uid FROM article a,user
         u,category c WHERE a.`cid`=c.`id` AND a.`uid`=u.`id` and a.state=1
@@ -62,6 +68,7 @@
         </if>
         ORDER BY a.editTime DESC limit #{start},#{count};
     </select>
+
     <select id="getArticleCountByState" resultType="int">
         SELECT count(*) FROM article
         <where>
@@ -91,21 +98,25 @@
             </if>
         </where>
     </select>
+
     <update id="updateArticleState">
         UPDATE article SET state=#{state} WHERE id IN
         <foreach collection="aids" item="aid" separator="," open="(" close=")">
             #{aid}
         </foreach>
     </update>
-    <update id="updateArticleStateById" >
+
+    <update id="updateArticleStateById">
         UPDATE article SET state=#{state} WHERE id = #{articleId}
     </update>
+
     <delete id="deleteArticleById">
         DELETE FROM article WHERE id IN
         <foreach collection="aids" item="aid" open="(" close=")" separator=",">
             #{aid}
         </foreach>
     </delete>
+
     <select id="getArticleById" parameterType="Long" resultMap="BaseResultMap">
        SELECT a.*,t.`tagName`,t.`id` AS tid,u.`nickname`,c.`cateName`,co.`countlike`,co.`countdislike` FROM article a
 LEFT JOIN article_tags ats ON a.`id`=ats.`aid` LEFT JOIN tags t ON ats.`tid`=t.`id`
@@ -145,6 +156,7 @@ INSERT INTO pv(countDate,pv,uid) SELECT NOW(),SUM(pageView),uid FROM article GRO
     <select id="getCategories" resultType="String" parameterType="long">
         SELECT countDate from pv WHERE uid=#{uid} ORDER by countDate DESC  limit 7
     </select>
+
     <select parameterType="long" id="getDataStatistics" resultType="int">
         SELECT pv from pv WHERE uid=#{uid} ORDER by countDate DESC limit 7
     </select>

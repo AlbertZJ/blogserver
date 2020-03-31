@@ -21,6 +21,7 @@ import java.util.List;
 @Service
 @Transactional
 public class UserService implements UserDetailsService {
+
     @Autowired
     UserMapper userMapper;
     @Autowired
@@ -66,11 +67,11 @@ public class UserService implements UserDetailsService {
             return 2;
         }
     }
+
     public int updateUserById(User user) {
 //        User loadUserByUsername = userMapper.loadUserByUsername(user.getUsername());
-
         //插入用户,插入之前先对密码进行加密
-      //  user.setPassword(DigestUtils.md5DigestAsHex(user.getPassword().getBytes()));
+        //  user.setPassword(DigestUtils.md5DigestAsHex(user.getPassword().getBytes()));
 //        // 设置默认用户名
 //        user.setNickname(user.getNickname());
 //       user.setEmail(user.getEmail());
@@ -89,9 +90,8 @@ public class UserService implements UserDetailsService {
     }
 
     public List<User> getUserAll(String nickname) {
-
-      Long uid=Util.getCurrentUser().getId();
-        List<User> list = userMapper.getUserAll(nickname,uid);
+        Long uid = Util.getCurrentUser().getId();
+        List<User> list = userMapper.getUserAll(nickname, uid);
         return list;
     }
 
@@ -102,9 +102,11 @@ public class UserService implements UserDetailsService {
     public int updateUserEnabled(Boolean enabled, Long uid) {
         return userMapper.updateUserEnabled(enabled, uid);
     }
+
     public int deleteUserByIds(Long uid) {
         return userMapper.deleteUserByIds(uid);
     }
+
     public int deleteUserById(Long uid) {
         return userMapper.deleteUserById(uid);
     }
@@ -118,11 +120,9 @@ public class UserService implements UserDetailsService {
         return userMapper.getUserById(id);
     }
 
-
     public int updatePwdById(User user) {
         //插入用户,插入之前先对密码进行加密
-          user.setPassword(DigestUtils.md5DigestAsHex(user.getPassword().getBytes()));
-
+        user.setPassword(DigestUtils.md5DigestAsHex(user.getPassword().getBytes()));
         int result = userMapper.updatePwdById(user);
         return result;
     }

@@ -1,8 +1,13 @@
 package org.sang.bean;
 
+/**
+ * Created by albert on 2019/12/19.
+ */
 public class RolesUser {
-    private  int id;
+
+    private int id;
     private int rid;
+    private int uid;
 
     public int getId() {
         return id;
@@ -28,13 +33,13 @@ public class RolesUser {
         this.uid = uid;
     }
 
-    private int uid;
-    public RolesUser(){
+    public RolesUser() {
 
     }
-    public RolesUser(int id,int rid,int uid){
-        this.id=id;
-        this.rid=rid;
-        this.uid=uid;
+
+    public RolesUser(int id, int rid, int uid) {
+        this.id = id;
+        this.rid = rid;
+        this.uid = uid;
     }
 }

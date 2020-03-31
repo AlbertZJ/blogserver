@@ -3,9 +3,11 @@
         PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
         "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="org.sang.mapper.ComLikesMapper">
+
     <insert id="add" parameterType="org.sang.bean.ComLikes">
         insert into comlikes(cid,uid,publishDate,likes) values(#{cid},#{uid},#{publishDate},#{likes})
     </insert>
+
     <select id="getLikes" resultType="org.sang.bean.ComLikes">
         SELECT * FROM comlikes where uid=#{uid} and cid=#{cid}
     </select>
@@ -17,9 +19,11 @@
     <delete id="deletelike">
         DELETE FROM comlikes WHERE uid=#{uid} and cid=#{cid} and likes=#{likes}
     </delete>
+
     <delete id="deleted">
         DELETE FROM comlikes WHERE cid=#{cid}
     </delete>
+
     <resultMap id="BaseResultMap" type="org.sang.bean.ComLikes">
         <id column="id" property="id"/>
         <result column="likes" property="likes"/>

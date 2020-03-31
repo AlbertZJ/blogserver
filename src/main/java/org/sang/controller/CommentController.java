@@ -14,7 +14,7 @@ import java.util.List;
 import java.util.Map;
 
 /**
- * 超级管理员专属Controller
+ * Created by albert on 2019/12/19.
  */
 @RestController
 @RequestMapping("/comment")
@@ -38,8 +38,8 @@ public class CommentController {
 
     @RequestMapping(value = "/all", method = RequestMethod.GET)
     public Map<String, Object> getCommentByState(@RequestParam(value = "state", defaultValue = "-1") Integer state, @RequestParam(value = "page", defaultValue = "1") Integer page, @RequestParam(value = "count", defaultValue = "6") Integer count, String keywords) {
-        int totalCount = commentService.getCommentCountByState(state, Util.getCurrentUser().getId(),keywords);
-        List<Comment> comment = commentService.getCommentByState(state, page, count,keywords);
+        int totalCount = commentService.getCommentCountByState(state, Util.getCurrentUser().getId(), keywords);
+        List<Comment> comment = commentService.getCommentByState(state, page, count, keywords);
         Map<String, Object> map = new HashMap<>();
         map.put("totalCount", totalCount);
         map.put("comment", comment);
@@ -73,7 +73,7 @@ public class CommentController {
     }
 
     @RequestMapping("/dataStatistics")
-    public Map<String,Object> dataStatistics() {
+    public Map<String, Object> dataStatistics() {
         Map<String, Object> map = new HashMap<>();
         //  List<String> categories = noticesService.getCategories();
         List<Integer> dataStatistics = commentService.getDataStatistics();
@@ -83,38 +83,39 @@ public class CommentController {
     }
 
     @RequestMapping(value = "/add", method = RequestMethod.POST)
-    public RespBean add(Comment comment,Long aid,String content) {
+    public RespBean add(Comment comment, Long aid, String content) {
         if ("".equals(comment.getContent()) || comment.getContent() == null) {
             return new RespBean("error", "请输入评论内容!");
         }
-
         Timestamp timestamp = new Timestamp(System.currentTimeMillis());
-         int result = commentService.add(comment,aid,content,timestamp);
+        int result = commentService.add(comment, aid, content, timestamp);
         if (result == 1) {
-            Comment ls = commentService.ls(comment,timestamp);
+            Comment ls = commentService.ls(comment, timestamp);
             int coun = commentService.coun(ls);
-            if(coun==1){
+            if (coun == 1) {
                 return new RespBean("success", "添加成功!");
             }
             return new RespBean("error", "添加失败!");
         }
         return new RespBean("error", "添加失败!");
     }
+
     @RequestMapping(value = "/adds", method = RequestMethod.POST)
-    public RespBean adds(Comment comment,Long aid,String content) {
+    public RespBean adds(Comment comment, Long aid, String content) {
         if ("".equals(comment.getContent()) || comment.getContent() == null) {
             return new RespBean("error", "请输入评论内容!");
         }
-        int result = commentService.adds(comment,aid,content);
+        int result = commentService.adds(comment, aid, content);
         if (result == 1) {
             return new RespBean("success", "添加成功!");
         }
         return new RespBean("error", "添加失败!");
     }
+
     @RequestMapping(value = "/delete/{ids}", method = RequestMethod.DELETE)
     public RespBean deleteById(@PathVariable Long ids) {
         int result = commentService.deleteCommentByIds(ids);
-        if (result==1) {
+        if (result == 1) {
             return new RespBean("success", "删除成功!");
         }
         return new RespBean("error", "删除失败!");

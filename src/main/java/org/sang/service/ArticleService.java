@@ -17,7 +17,7 @@ import java.util.Date;
 import java.util.List;
 
 /**
- * Created by sang on 2017/12/20.
+ * Created by albert on 2019/12/19.
  */
 @Service
 @Transactional
@@ -30,10 +30,6 @@ public class ArticleService {
     CountlikesMapper countlikesMapper;
 
     public int addNewArticle(Article article) {
-//        Countlikes countlikes=new Countlikes();
-//        countlikes.setAid();
-//        countlikes.setPublishDate(new Timestamp(System.currentTimeMillis()));
-//        countlikesMapper.add(countlikes);
         //处理文章摘要
         if (article.getSummary() == null || "".equals(article.getSummary())) {
             //直接截取
@@ -77,7 +73,6 @@ public class ArticleService {
                     return tags;
                 }
             }
-
             return i;
         }
     }
@@ -101,22 +96,21 @@ public class ArticleService {
         return content;
     }
 
-    public List<Article> getArticleByState(Integer state, Integer page, Integer count,String keywords) {
+    public List<Article> getArticleByState(Integer state, Integer page, Integer count, String keywords) {
         int start = (page - 1) * count;
         Long uid = Util.getCurrentUser().getId();
-        return articleMapper.getArticleByState(state, start, count, uid,keywords);
+        return articleMapper.getArticleByState(state, start, count, uid, keywords);
     }
 
-    public List<Article> getArticleAll(Integer state, Integer page, Integer count,Long uid,String keywords) {
+    public List<Article> getArticleAll(Integer state, Integer page, Integer count, Long uid, String keywords) {
         int start = (page - 1) * count;
-
-        return articleMapper.getArticleByState(state, start, count, uid,keywords);
+        return articleMapper.getArticleByState(state, start, count, uid, keywords);
     }
 
-    public List<Article> getArticleByStated(Integer state, Integer page, Integer count,String cate) {
+    public List<Article> getArticleByStated(Integer state, Integer page, Integer count, String cate) {
         int start = (page - 1) * count;
         Long uid = Util.getCurrentUser().getId();
-        return articleMapper.getArticleByStated(state, start, count, uid,cate);
+        return articleMapper.getArticleByStated(state, start, count, uid, cate);
     }
 
 //    public List<Article> getArticleByStateByAdmin(Integer page, Integer count,String keywords) {
@@ -124,12 +118,12 @@ public class ArticleService {
 //        return articleMapper.getArticleByStateByAdmin(start, count,keywords);
 //    }
 
-    public int getArticleCountByStated(Integer state, Long uid,String cate) {
-        return articleMapper.getArticleCountByStated(state, uid,cate);
+    public int getArticleCountByStated(Integer state, Long uid, String cate) {
+        return articleMapper.getArticleCountByStated(state, uid, cate);
     }
 
-    public int getArticleCountByState(Integer state, Long uid,String keywords) {
-        return articleMapper.getArticleCountByState(state, uid,keywords);
+    public int getArticleCountByState(Integer state, Long uid, String keywords) {
+        return articleMapper.getArticleCountByState(state, uid, keywords);
     }
 
     public int updateArticleState(Long[] aids, Integer state) {
@@ -145,7 +139,6 @@ public class ArticleService {
     }
 
     public Article getArticleById(Long aid) {
-
         Article article = articleMapper.getArticleById(aid);
         articleMapper.pvIncrement(aid);
         return article;
@@ -157,13 +150,14 @@ public class ArticleService {
 
     /**
      * 获取最近七天的日期
+     *
      * @return
      */
     public List<String> getCategories() {
-        List<String> l=articleMapper.getCategories(Util.getCurrentUser().getId());
+        List<String> l = articleMapper.getCategories(Util.getCurrentUser().getId());
 
-        List<String> cates=new ArrayList<String>();
-        for(String a:l){
+        List<String> cates = new ArrayList<String>();
+        for (String a : l) {
             cates.add(a);
         }
         Collections.reverse(cates);
@@ -172,11 +166,11 @@ public class ArticleService {
 
     /**
      * 获取最近七天的数据
+     *
      * @return
      */
-    public List<Integer> getDataStatistics()
-    {
-        List<Integer> l= articleMapper.getDataStatistics(Util.getCurrentUser().getId());
+    public List<Integer> getDataStatistics() {
+        List<Integer> l = articleMapper.getDataStatistics(Util.getCurrentUser().getId());
         Collections.reverse(l);
         return l;
     }

@@ -17,15 +17,18 @@ import java.util.List;
 /**
  * 超级管理员专属Controller
  */
+/**
+ * Created by albert on 2019/12/19.
+ */
+
 @RestController
 @RequestMapping("/admin/role")
 public class RoleController {
+
     @Autowired
     RoleService roleService;
     @Autowired
     UserService userService;
-
-
 
     @RequestMapping(value = "/all", method = RequestMethod.GET)
     public List<Role> getAllRole() {

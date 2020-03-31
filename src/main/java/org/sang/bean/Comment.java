@@ -3,7 +3,11 @@ package org.sang.bean;
 import java.sql.Timestamp;
 import java.util.List;
 
+/**
+ * Created by albert on 2019/12/19.
+ */
 public class Comment {
+
     private Long id;
     private Long aid;
     private String content;
@@ -82,7 +86,7 @@ public class Comment {
     public void setState(Long state) {
         this.state = state;
     }
-    
+
     public Long getId() {
         return id;
     }
@@ -130,5 +134,5 @@ public class Comment {
     public void setUid(Long uid) {
         this.uid = uid;
     }
-    
+
 }

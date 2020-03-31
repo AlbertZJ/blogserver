@@ -28,6 +28,7 @@ import java.io.PrintWriter;
 // WebSecurity(WEB安全)
 @Configuration
 public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
+
     @Autowired
     UserService userService;
 
@@ -67,26 +68,26 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
         http.authorizeRequests()
                 // .antMatchers("/register").permitAll() // 用户可任意访问
                 .antMatchers("/admin/category/all").authenticated() // 用户登录后可以访问
-               // .antMatchers("/admin/**","/reg").hasRole("超级管理员")///admin/**的URL都需要有超级管理员角色，如果使用.hasAuthority()方法来配置，需要在参数中加上ROLE_,如下.hasAuthority("ROLE_超级管理员")
-                .antMatchers("/admin/user/**","/admin/roles","/admin/category/").hasRole("超级管理员")
+                // .antMatchers("/admin/**","/reg").hasRole("超级管理员")///admin/**的URL都需要有超级管理员角色，如果使用.hasAuthority()方法来配置，需要在参数中加上ROLE_,如下.hasAuthority("ROLE_超级管理员")
+                .antMatchers("/admin/user/**", "/admin/roles", "/admin/category/").hasRole("超级管理员")
                 .anyRequest().authenticated()  // 其他的路径都是登录后即可访问
                 .and()
                 .formLogin()
-              //  .loginPage("/login")
-                  .loginPage("/login_page") // 指定登录页的路径
+                //  .loginPage("/login")
+                .loginPage("/login_page") // 指定登录页的路径
                 // 必须允许所有用户访问我们的登录页(例如为验证的用户，否则验证流程就会进入死循环)
                 // 这个formLogin().permitAll()方法允许所有用户基于表单登录访问/login这个page
                 // 登录成功
                 .successHandler(new AuthenticationSuccessHandler() {
-            @Override
-            public void onAuthenticationSuccess(HttpServletRequest httpServletRequest, HttpServletResponse httpServletResponse, Authentication authentication) throws IOException, ServletException {
-                httpServletResponse.setContentType("application/json;charset=utf-8");
-                PrintWriter out = httpServletResponse.getWriter();
-                out.write("{\"status\":\"success\",\"msg\":\"登录成功\"}");
-                out.flush();
-                out.close();
-            }
-        })
+                    @Override
+                    public void onAuthenticationSuccess(HttpServletRequest httpServletRequest, HttpServletResponse httpServletResponse, Authentication authentication) throws IOException, ServletException {
+                        httpServletResponse.setContentType("application/json;charset=utf-8");
+                        PrintWriter out = httpServletResponse.getWriter();
+                        out.write("{\"status\":\"success\",\"msg\":\"登录成功\"}");
+                        out.flush();
+                        out.close();
+                    }
+                })
                 // 登录失败
                 .failureHandler(new AuthenticationFailureHandler() {
                     @Override
@@ -118,7 +119,7 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
     // WebSecurity(WEB安全)
     @Override
     public void configure(WebSecurity web) throws Exception {
-        web.ignoring().antMatchers("/blogimg/**","/index.html","/static/**","/register");
+        web.ignoring().antMatchers("/blogimg/**", "/index.html", "/static/**", "/register");
     }
 
     @Bean

@@ -3,26 +3,31 @@
         PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
         "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="org.sang.mapper.FavoriteMapper">
+
     <insert id="add" parameterType="org.sang.bean.Favorite">
      INSERT IGNORE INTO favorite(uid,aid,publishDate,state) VALUES(#{uid},#{aid},#{publishDate},#{state})
     </insert>
+
     <select id="selected" resultType="org.sang.bean.Favorite">
        SELECT id FROM favorite WHERE uid=#{uid} AND aid=#{aid}
     </select>
+
     <select id="selecteds" resultType="org.sang.bean.Favorite">
        SELECT id FROM favorite WHERE uid=#{uid} AND aid=#{aid} AND state=#{state}
     </select>
+
     <select id="all" resultType="org.sang.bean.Favorite">
        SELECT f.`id`,a.`title`,a.`id` AS aid,f.`publishDate`,u.`nickname`,f.`state` FROM favorite AS f,article AS a,USER AS u
 WHERE f.`aid`=a.`id` AND f.`uid`=u.`id` AND f.`uid`=#{uid} AND f.`state`=1
-
     </select>
+
     <update id="deleted">
         UPDATE favorite SET state=2 WHERE id IN
         <foreach collection="ids" separator="," open="(" close=")" item="id">
             #{id}
         </foreach>
     </update>
+
     <update id="updateFavorite" parameterType="org.sang.bean.Favorite">
        UPDATE favorite SET state=#{state} WHERE uid=#{uid} AND aid=#{aid}
     </update>

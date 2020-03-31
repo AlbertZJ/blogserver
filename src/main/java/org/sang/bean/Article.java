@@ -7,6 +7,7 @@ import java.util.List;
  * Created by albert on 2019/12/20.
  */
 public class Article {
+
     private Long id;
     private String title;
     private String mdContent;

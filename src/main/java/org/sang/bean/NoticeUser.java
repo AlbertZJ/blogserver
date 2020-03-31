@@ -2,7 +2,11 @@ package org.sang.bean;
 
 import java.sql.Timestamp;
 
+/**
+ * Created by albert on 2019/12/19.
+ */
 public class NoticeUser {
+
     private Long id;
     private String message;
     private Timestamp publishDate;

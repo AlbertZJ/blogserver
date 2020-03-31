@@ -8,7 +8,7 @@ import org.sang.bean.User;
 import java.util.List;
 
 /**
- * Created by sang on 2017/12/17.
+ * Created by albert on 2019/12/19.
  */
 @Mapper
 public interface UserMapper {
@@ -21,7 +21,7 @@ public interface UserMapper {
 
     List<User> getUserByNickname(@Param("nickname") String nickname);
 
-    List<User> getUserAll(@Param("nickname") String nickname,@Param("uid") Long uid);
+    List<User> getUserAll(@Param("nickname") String nickname, @Param("uid") Long uid);
 
     List<Role> getAllRole();
 

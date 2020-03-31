@@ -7,13 +7,14 @@ import org.sang.bean.Role;
 import java.util.List;
 
 /**
- * Created by sang on 2017/12/17.
+ * Created by albert on 2019/12/19.
  */
 @Mapper
 public interface RolesMapper {
     int addRoles(@Param("roles") String[] roles, @Param("uid") Long uid);
 
     List<Role> getRolesByUid(Long uid);
+
     List<Role> getAllRole();
 
     int deleteRoleByIds(@Param("ids") String[] ids);

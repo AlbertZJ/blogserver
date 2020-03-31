@@ -6,6 +6,7 @@ import java.sql.Timestamp;
  * Created by albert on 2019/12/20.
  */
 public class Category {
+
     private Long id;
     private String cateName;
     private Timestamp date;

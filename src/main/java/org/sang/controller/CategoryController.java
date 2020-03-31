@@ -14,16 +14,16 @@ import org.springframework.web.bind.annotation.RestController;
 import java.util.List;
 
 /**
- * 超级管理员专属Controller
+ * Created by albert on 2019/12/19.
  */
 @RestController
 @RequestMapping("/admin/category")
 public class CategoryController {
+
     @Autowired
     CategoryService categoryService;
     @Autowired
     UserService userService;
-
 
 
     @RequestMapping(value = "/all", method = RequestMethod.GET)
@@ -42,13 +42,10 @@ public class CategoryController {
 
     @RequestMapping(value = "/regist", method = RequestMethod.POST)
     public RespBean addNewCate(Category category) {
-
         if ("".equals(category.getCateName()) || category.getCateName() == null) {
             return new RespBean("error", "请输入栏目名称!");
         }
-
         int result = categoryService.addCategory(category);
-
         if (result == 1) {
             return new RespBean("success", "添加成功!");
         }
@@ -64,9 +61,9 @@ public class CategoryController {
         } else if (result == 1) {
             return new RespBean("error", "用户名重复，注册失败!");
         } else {
-        //失败
-        return new RespBean("error", "注册失败!");
-          }
+            //失败
+            return new RespBean("error", "注册失败!");
+        }
     }
 
     @RequestMapping(value = "/", method = RequestMethod.PUT)

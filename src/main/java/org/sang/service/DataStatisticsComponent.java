@@ -9,12 +9,13 @@ import org.springframework.stereotype.Component;
  */
 @Component
 public class DataStatisticsComponent {
+
     @Autowired
     ArticleService articleService;
 
     //每天执行一次，统计PV(定时任务)
 //    @Scheduled(cron = "1 0 0 * * ?")
-   // @Scheduled(cron = "0 0/1 * * * ?")
+    // @Scheduled(cron = "0 0/1 * * * ?")
     @Scheduled(cron = "1 0 0 * * ?")
     public void pvStatisticsPerDay() {
         articleService.pvStatisticsPerDay();

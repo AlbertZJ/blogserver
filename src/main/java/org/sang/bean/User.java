@@ -13,6 +13,7 @@ import java.util.List;
  * Created by albert on 2019/12/20.
  */
 public class User implements UserDetails {
+
     private Long id;
     private String username;
     private String password;
@@ -21,6 +22,9 @@ public class User implements UserDetails {
     private List<Role> roles;
     private String email;
     private String userface;
+    private Long state;
+    private Timestamp regTime;
+    private Long uid;
 
     public Long getState() {
         return state;
@@ -30,9 +34,6 @@ public class User implements UserDetails {
         this.state = state;
     }
 
-    private Long state;
-    private Timestamp regTime;
-
     public Long getUid() {
         return uid;
     }
@@ -40,8 +41,6 @@ public class User implements UserDetails {
     public void setUid(Long uid) {
         this.uid = uid;
     }
-
-    private Long uid;
 
     public Timestamp getRegTime() {
         return regTime;
@@ -127,7 +126,6 @@ public class User implements UserDetails {
     public void setUsername(String username) {
         this.username = username;
     }
-
 
     public String getPassword() {
         return password;

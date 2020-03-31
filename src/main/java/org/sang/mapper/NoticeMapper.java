@@ -8,6 +8,9 @@ import org.sang.bean.NoticeUser;
 
 import java.util.List;
 
+/**
+ * Created by albert on 2019/12/19.
+ */
 @Mapper
 public interface NoticeMapper {
 
@@ -16,6 +19,7 @@ public interface NoticeMapper {
     int updateNotice(Notice notice);
 
     int updateNews(Notice notice);
+
     Notice show(Notice notice);
 
     Notice sys(Notice notice);

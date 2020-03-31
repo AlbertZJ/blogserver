@@ -7,17 +7,18 @@ import org.sang.bean.Article;
 import java.util.List;
 
 /**
- * Created by sang on 2017/12/20.
+ * Created by albert on 2019/12/19.
  */
 @Mapper
 public interface ArticleMapper {
+
     int addNewArticle(Article article);
 
     int updateArticle(Article article);
 
-    List<Article> getArticleByState(@Param("state") Integer state, @Param("start") Integer start, @Param("count") Integer count, @Param("uid") Long uid,@Param("keywords") String keywords);
+    List<Article> getArticleByState(@Param("state") Integer state, @Param("start") Integer start, @Param("count") Integer count, @Param("uid") Long uid, @Param("keywords") String keywords);
 
-    List<Article> getArticleByStated(@Param("state") Integer state, @Param("start") Integer start, @Param("count") Integer count, @Param("uid") Long uid,@Param("cate") String cate);
+    List<Article> getArticleByStated(@Param("state") Integer state, @Param("start") Integer start, @Param("count") Integer count, @Param("uid") Long uid, @Param("cate") String cate);
 
 //    List<Article> getArticleByStateByAdmin(@Param("start") int start, @Param("count") Integer count, @Param("keywords") String keywords);
 

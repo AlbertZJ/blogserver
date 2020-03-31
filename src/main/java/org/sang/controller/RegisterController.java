@@ -16,7 +16,6 @@ public class RegisterController {
     @Autowired
     UserService userService;
 
-
     @RequestMapping(value = "/register", method = RequestMethod.POST)
     public RespBean reg(User user) {
         int result = userService.reg(user);
@@ -30,10 +29,6 @@ public class RegisterController {
             return new RespBean("error", "注册失败!");
         }
     }
-
-
-
-
 
 
 }

@@ -13,11 +13,12 @@ import org.springframework.web.bind.annotation.RestController;
 import java.util.List;
 
 /**
- * Created by sang on 2017/12/24.
+ * Created by albert on 2019/12/19.
  */
 @RestController
 @RequestMapping("/admin")
 public class UserManaController {
+
     @Autowired
     UserService userService;
 
@@ -25,6 +26,7 @@ public class UserManaController {
     public List<User> getUserByNickname(String nickname) {
         return userService.getUserByNickname(nickname);
     }
+
     @RequestMapping(value = "/user/all", method = RequestMethod.GET)
     public List<User> getUserAll(String nickname) {
         return userService.getUserAll(nickname);
@@ -80,6 +82,4 @@ public class UserManaController {
             return new RespBean("error", "更新失败!");
         }
     }
-
-
 }

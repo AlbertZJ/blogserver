@@ -2,7 +2,11 @@ package org.sang.bean;
 
 import java.sql.Timestamp;
 
+/**
+ * Created by albert on 2019/12/19.
+ */
 public class Notice {
+
     private Long id;
     private String title;
     private String message;
@@ -13,6 +17,7 @@ public class Notice {
     private String mdContent;
     private String htmlContent;
     private String news;
+    private String dename;
 
     public Long getId() {
         return id;
@@ -101,8 +106,5 @@ public class Notice {
     public void setDename(String dename) {
         this.dename = dename;
     }
-
-    private String dename;
-
 
 }

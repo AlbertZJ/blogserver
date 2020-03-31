@@ -4,7 +4,7 @@ import org.sang.bean.User;
 import org.springframework.security.core.context.SecurityContextHolder;
 
 /**
- * Created by sang on 2017/12/20.
+ * Created by albert on 2019/12/19.
  */
 public class Util {
     public static User getCurrentUser() {

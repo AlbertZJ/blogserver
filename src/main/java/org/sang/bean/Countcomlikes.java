@@ -2,12 +2,17 @@ package org.sang.bean;
 
 import java.sql.Timestamp;
 
+/**
+ * Created by albert on 2019/12/19.
+ */
 public class Countcomlikes {
+
     private Long id;
     private Long countlike;
     private Long countdislike;
     private Long cid;
     private Timestamp publishDate;
+    private int likes;
 
     public int getLikes() {
         return likes;
@@ -16,8 +21,6 @@ public class Countcomlikes {
     public void setLikes(int likes) {
         this.likes = likes;
     }
-
-    private int likes;
 
     public Long getId() {
         return id;

@@ -13,6 +13,7 @@ import java.io.PrintWriter;
  * Created by albert on 2019/12/22.
  */
 public class AuthenticationAccessDeniedHandler implements AccessDeniedHandler {
+
     @Override
     public void handle(HttpServletRequest httpServletRequest, HttpServletResponse resp, AccessDeniedException e) throws IOException, ServletException {
         resp.setStatus(HttpServletResponse.SC_FORBIDDEN);

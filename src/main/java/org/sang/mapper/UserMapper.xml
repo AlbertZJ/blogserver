@@ -3,6 +3,7 @@
         PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
         "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="org.sang.mapper.UserMapper">
+
     <select id="loadUserByUsername" resultType="org.sang.bean.User">
         SELECT * FROM user WHERE username=#{username} and state=1
     </select>
@@ -10,7 +11,8 @@
     <insert id="reg" useGeneratedKeys="true" keyProperty="id">
         INSERT INTO user set username=#{username},password=#{password},nickname=#{nickname}
     </insert>
-    <update id="updateUserById" >
+
+    <update id="updateUserById">
         UPDATE user set nickname=#{nickname},email=#{email},userface=#{userface} where id=#{id};
     </update>
 
@@ -18,25 +20,27 @@
         UPDATE	USER SET state=2 WHERE id=#{id}
     </update>
 
-    <update id="updatePwdById" >
+    <update id="updatePwdById">
         UPDATE user set password=#{password} where id=#{id};
     </update>
 
     <update id="updateUserEmail">
         UPDATE user set email=#{email} WHERE id=#{id}
     </update>
+
     <select id="getUserByNickname" resultMap="BaseResultMap">
-    SELECT u.*,r.`id` AS rid,r.`name` AS rname FROM user u,roles r,roles_user ru WHERE u.`id`=ru.`uid` AND
-    r.`id`=ru.`rid`  AND u.`state`=1 AND u.`id` NOT IN(SELECT u.`id` FROM user u,roles_user ru WHERE u.`id`=ru.`uid` AND ru.`rid`=1)
-    <choose>
-        <when test="nickname!=null and nickname!=''">
-            and u.nickname like concat('%',#{nickname},'%') ORDER BY u.`id`
-        </when>
-        <otherwise>
-            ORDER BY u.`id` limit 20
-        </otherwise>
-    </choose>
-</select>
+        SELECT u.*,r.`id` AS rid,r.`name` AS rname FROM user u,roles r,roles_user ru WHERE u.`id`=ru.`uid` AND
+        r.`id`=ru.`rid` AND u.`state`=1 AND u.`id` NOT IN(SELECT u.`id` FROM user u,roles_user ru WHERE u.`id`=ru.`uid`
+        AND ru.`rid`=1)
+        <choose>
+            <when test="nickname!=null and nickname!=''">
+                and u.nickname like concat('%',#{nickname},'%') ORDER BY u.`id`
+            </when>
+            <otherwise>
+                ORDER BY u.`id` limit 20
+            </otherwise>
+        </choose>
+    </select>
 
     <select id="getUserAll" resultMap="BaseResultMap">
         SELECT u.*,r.`id` AS rid,r.`name` AS rname FROM user u,roles r,roles_user ru WHERE u.`id`=ru.`uid` AND
@@ -55,6 +59,7 @@
         SELECT u.*,r.`id` AS rid,r.`name` AS rname FROM user u,roles r,roles_user ru WHERE u.`id`=ru.`uid` AND
         r.`id`=ru.`rid` AND u.`state`=1 AND u.`id`=#{id}
     </select>
+
     <resultMap id="BaseResultMap" type="org.sang.bean.User">
         <id column="id" property="id"/>
         <result column="username" property="username"/>
@@ -70,18 +75,23 @@
             <result column="rname" property="name"/>
         </collection>
     </resultMap>
+
     <select id="getAllRole" resultType="org.sang.bean.Role">
         select * from roles;
     </select>
+
     <update id="updateUserEnabled">
         UPDATE user set enabled=#{enabled} WHERE id=#{uid}
     </update>
+
     <delete id="deleteUserById">
         DELETE FROM user WHERE id=#{id}
     </delete>
+
     <delete id="deleteUserRolesByUid">
         DELETE FROM roles_user WHERE uid=#{id}
     </delete>
+
     <insert id="setUserRoles">
         INSERT INTO roles_user(rid,uid) VALUES
         <foreach collection="rids" separator="," item="rid">

@@ -2,7 +2,11 @@ package org.sang.bean;
 
 import java.sql.Timestamp;
 
+/**
+ * Created by albert on 2019/12/19.
+ */
 public class Countlikes {
+
     private Long id;
     private Long countlike;
     private Long countdislike;

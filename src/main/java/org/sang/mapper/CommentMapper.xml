@@ -7,9 +7,11 @@
     <insert id="addNewComment" parameterType="org.sang.bean.Comment" useGeneratedKeys="true" keyProperty="id">
        INSERT INTO comments SET publishDate=#{publishDate},content=#{content},uid=#{uid},state=#{state}
     </insert>
+
     <!--    <update id="pvIncrement" parameterType="Long">-->
     <!--        UPDATE notice set pageView=pageView+1 WHERE id=#{aid}-->
     <!--    </update>-->
+
     <update id="updateComment" parameterType="org.sang.bean.Comment">
         UPDATE comments SET
         content=#{content}
@@ -23,26 +25,27 @@
     </update>
 
     <select id="getCommentByState" resultType="org.sang.bean.Comment">
-        SELECT c.id,c.`content`,c.`publishDate`,c.`state`,u.`nickname`,c.uid,a.title,c.`aid` FROM comments AS c,article AS a,USER AS
-        u WHERE  c.`uid`=u.`id` AND a.`id`=c.`aid`
-    <if test="state!=-2">
-        and c.uid=#{uid}
-    </if>
-    <if test="state!=-1 and state!=-2">
-        and c.state=#{state}
-    </if>
-    <if test="state==-2">
-        and c.state=1
-    </if>
-    <if test="keywords!=null">
-        AND content LIKE concat('%',#{keywords},'%')
-    </if>
-    ORDER BY c.publishDate DESC limit #{start},#{count};
-</select>
+        SELECT c.id,c.`content`,c.`publishDate`,c.`state`,u.`nickname`,c.uid,a.title,c.`aid` FROM comments AS c,article
+        AS a,USER AS
+        u WHERE c.`uid`=u.`id` AND a.`id`=c.`aid`
+        <if test="state!=-2">
+            and c.uid=#{uid}
+        </if>
+        <if test="state!=-1 and state!=-2">
+            and c.state=#{state}
+        </if>
+        <if test="state==-2">
+            and c.state=1
+        </if>
+        <if test="keywords!=null">
+            AND content LIKE concat('%',#{keywords},'%')
+        </if>
+        ORDER BY c.publishDate DESC limit #{start},#{count};
+    </select>
 
     <select id="getComByState" resultType="org.sang.bean.Comment">
         SELECT c.id,c.`content`,c.`publishDate`,c.`state`,u.`nickname`,c.uid FROM comments AS c,USER AS
-        u WHERE  c.`uid`=u.`id`
+        u WHERE c.`uid`=u.`id`
         <if test="state!=-2">
             and c.uid=#{uid}
         </if>
@@ -56,7 +59,8 @@
     </select>
 
     <select id="getCommentByStateByAdmin" resultType="org.sang.bean.Comment">
-        SELECT c.id,c.`content`,c.`publishDate`,c.`state`,u.`nickname`,c.uid FROM comments AS c,USER AS u WHERE  c.`uid`=u.`id` AND c.state=1
+        SELECT c.id,c.`content`,c.`publishDate`,c.`state`,u.`nickname`,c.uid FROM comments AS c,USER AS u WHERE
+        c.`uid`=u.`id` AND c.state=1
         <if test="keywords!=null">
             AND content LIKE concat('%',#{keywords},'%')
         </if>
@@ -64,19 +68,19 @@
     </select>
 
     <select id="getCommentCountByState" resultType="int">
-    SELECT count(*) FROM comments
-    <where>
-        <if test="state!=-1">
-            AND state=#{state}
-        </if>
-        <if test="uid!=null">
-            AND uid=#{uid}
-        </if>
-        <if test="keywords!=null">
-            AND content LIKE concat('%',#{keywords},'%')
-        </if>
-    </where>
-</select>
+        SELECT count(*) FROM comments
+        <where>
+            <if test="state!=-1">
+                AND state=#{state}
+            </if>
+            <if test="uid!=null">
+                AND uid=#{uid}
+            </if>
+            <if test="keywords!=null">
+                AND content LIKE concat('%',#{keywords},'%')
+            </if>
+        </where>
+    </select>
 
     <select id="getComCountByState" resultType="int">
         SELECT count(*) FROM comments
@@ -89,6 +93,7 @@
             </if>
         </where>
     </select>
+
     <update id="updateCommentState">
         UPDATE comments SET state=#{state} WHERE id IN
         <foreach collection="aids" item="aid" separator="," open="(" close=")">
@@ -96,11 +101,11 @@
         </foreach>
     </update>
 
-    <update id="updateCommentStateById" >
+    <update id="updateCommentStateById">
         UPDATE comments SET state=#{state} WHERE id = #{commentId}
     </update>
 
-    <update id="updateCommentByIds" >
+    <update id="updateCommentByIds">
         UPDATE comments SET state=2 WHERE id = #{id}
     </update>
 
@@ -110,6 +115,7 @@
             #{aid}
         </foreach>
     </delete>
+
     <select id="getCommentById" parameterType="Long" resultMap="BaseResultMap">
          SELECT c.id,c.content,c.publishDate,u.nickname,c.state FROM comments AS c,USER AS u WHERE c.uid=u.id and c.id=#{aid}
     </select>
@@ -140,7 +146,8 @@
     <insert id="add" parameterType="org.sang.bean.Comment">
 insert into comments set aid=#{aid},content=#{content},publishDate=#{publishDate},parentId=#{parentId},uid=#{uid}
     </insert>
-    <delete id="deleteCommentByIds" >
+
+    <delete id="deleteCommentByIds">
        DELETE  FROM comments WHERE id=#{id}
     </delete>
 
@@ -156,6 +163,5 @@ insert into comments set aid=#{aid},content=#{content},publishDate=#{publishDate
         <result column="countdislike" property="countdislike"/>
         <result column="nickname" property="nickname"/>
     </resultMap>
-
 </mapper>
 

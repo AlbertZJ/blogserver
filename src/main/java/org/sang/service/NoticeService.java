@@ -37,14 +37,13 @@ public class NoticeService {
             if (notice.getState() == 1) {
                 //设置发表日期
                 notice.setPublishDate(timestamp);
-            }else if(notice.getState() == 0){
+            } else if (notice.getState() == 0) {
                 notice.setPublishDate(timestamp);
             }
-
             //   notice.setEditTime(timestamp);
             //设置当前用户
             notice.setUid(Util.getCurrentUser().getId());
-            if(notice.getNews().equals("是")){
+            if (notice.getNews().equals("是")) {
                 noticeMapper.updateNews(notice);
             }
             int i = noticeMapper.addNewNotice(notice);
@@ -56,7 +55,7 @@ public class NoticeService {
                 //设置发表日期
                 notice.setPublishDate(timestamp);
             }
-            if(notice.getNews().equals("是")){
+            if (notice.getNews().equals("是")) {
                 noticeMapper.updateNews(notice);
             }
             //更新
@@ -73,10 +72,10 @@ public class NoticeService {
         return content;
     }
 
-    public List<Notice> getNoticeByState(Integer state, Integer page, Integer count,String keywords) {
+    public List<Notice> getNoticeByState(Integer state, Integer page, Integer count, String keywords) {
         int start = (page - 1) * count;
         Long uid = Util.getCurrentUser().getId();
-        return noticeMapper.getNoticeByState(state, start, count, uid,keywords);
+        return noticeMapper.getNoticeByState(state, start, count, uid, keywords);
     }
 
 //    public List<notice> getnoticeByStateByAdmin(Integer page, Integer count,String keywords) {
@@ -84,8 +83,8 @@ public class NoticeService {
 //        return noticeMapper.getnoticeByStateByAdmin(start, count,keywords);
 //    }
 
-    public int getNoticeCountByState(Integer state, Long uid,String keywords) {
-        return noticeMapper.getNoticeCountByState(state, uid,keywords);
+    public int getNoticeCountByState(Integer state, Long uid, String keywords) {
+        return noticeMapper.getNoticeCountByState(state, uid, keywords);
     }
 
     public int updateNoticeState(Long[] aids, Integer state) {
@@ -106,20 +105,19 @@ public class NoticeService {
         return notice;
     }
 
-public Notice show(){
-        Notice notices=new Notice();
+    public Notice show() {
+        Notice notices = new Notice();
         notices.setNews("是");
         notices.setUid(Util.getCurrentUser().getId());
-        Notice notice =noticeMapper.show(notices);
-        return  notice;
-}
+        Notice notice = noticeMapper.show(notices);
+        return notice;
+    }
 
-
-    public Notice sys(){
-        Notice notices=new Notice();
+    public Notice sys() {
+        Notice notices = new Notice();
         notices.setNews("是");
-        Notice notice =noticeMapper.sys(notices);
-        return  notice;
+        Notice notice = noticeMapper.sys(notices);
+        return notice;
     }
 
     /**
@@ -130,9 +128,9 @@ public Notice show(){
 //        return NoticesMapper.getCategories(Util.getCurrentUser().getId());
 //    }
 
-
     /**
      * 获取最近七天的数据
+     *
      * @return
      */
     public List<Integer> getDataStatistics() {

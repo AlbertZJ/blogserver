@@ -34,9 +34,9 @@ public class NoticeController {
     }
 
     @RequestMapping(value = "/all", method = RequestMethod.GET)
-    public Map<String, Object> getNoticeByState(@RequestParam(value = "state", defaultValue = "-1") Integer state, @RequestParam(value = "page", defaultValue = "1") Integer page, @RequestParam(value = "count", defaultValue = "6") Integer count,String keywords) {
-        int totalCount = noticesService.getNoticeCountByState(state, Util.getCurrentUser().getId(),keywords);
-        List<Notice> notice = noticesService.getNoticeByState(state, page, count,keywords);
+    public Map<String, Object> getNoticeByState(@RequestParam(value = "state", defaultValue = "-1") Integer state, @RequestParam(value = "page", defaultValue = "1") Integer page, @RequestParam(value = "count", defaultValue = "6") Integer count, String keywords) {
+        int totalCount = noticesService.getNoticeCountByState(state, Util.getCurrentUser().getId(), keywords);
+        List<Notice> notice = noticesService.getNoticeByState(state, page, count, keywords);
         Map<String, Object> map = new HashMap<>();
         map.put("totalCount", totalCount);
         map.put("notice", notice);
@@ -75,11 +75,11 @@ public class NoticeController {
     }
 
     @RequestMapping("/dataStatistics")
-    public Map<String,Object> dataStatistics() {
+    public Map<String, Object> dataStatistics() {
         Map<String, Object> map = new HashMap<>();
-      //  List<String> categories = noticesService.getCategories();
+        //  List<String> categories = noticesService.getCategories();
         List<Integer> dataStatistics = noticesService.getDataStatistics();
-      //  map.put("categories", categories);
+        //  map.put("categories", categories);
         map.put("ds", dataStatistics);
         return map;
     }

@@ -15,11 +15,12 @@ import java.util.List;
 import java.util.Map;
 
 /**
- * 超级管理员专属Controller
+ * Created by albert on 2019/12/19.
  */
 @RestController
 @RequestMapping("/favorite")
 public class FavoriteController {
+
     @Autowired
     FavoriteService favoriteService;
 
@@ -51,6 +52,7 @@ public class FavoriteController {
         }
         return new RespBean("error", "删除失败!");
     }
+
     @RequestMapping(value = "/changed", method = RequestMethod.PUT)
     public RespBean updateFavorite(Favorite favorite) {
         int i = favoriteService.updateFavorite(favorite);
@@ -59,6 +61,7 @@ public class FavoriteController {
         }
         return new RespBean("error", "收藏失败!");
     }
+
     @RequestMapping(value = "/changeds", method = RequestMethod.PUT)
     public RespBean updateFavorites(Favorite favorite) {
         int i = favoriteService.updateFavorite(favorite);

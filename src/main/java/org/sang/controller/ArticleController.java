@@ -71,9 +71,9 @@ public class ArticleController {
     }
 
     @RequestMapping(value = "/all", method = RequestMethod.GET)
-    public Map<String, Object> getArticleByState(@RequestParam(value = "state", defaultValue = "-1") Integer state, @RequestParam(value = "page", defaultValue = "1") Integer page, @RequestParam(value = "count", defaultValue = "6") Integer count,String keywords) {
-        int totalCount = articleService.getArticleCountByState(state, Util.getCurrentUser().getId(),keywords);
-        List<Article> articles = articleService.getArticleByState(state, page, count,keywords);
+    public Map<String, Object> getArticleByState(@RequestParam(value = "state", defaultValue = "-1") Integer state, @RequestParam(value = "page", defaultValue = "1") Integer page, @RequestParam(value = "count", defaultValue = "6") Integer count, String keywords) {
+        int totalCount = articleService.getArticleCountByState(state, Util.getCurrentUser().getId(), keywords);
+        List<Article> articles = articleService.getArticleByState(state, page, count, keywords);
         Map<String, Object> map = new HashMap<>();
         map.put("totalCount", totalCount);
         map.put("articles", articles);
@@ -81,9 +81,9 @@ public class ArticleController {
     }
 
     @RequestMapping(value = "/alls", method = RequestMethod.GET)
-    public Map<String, Object> getArticleByStates( Integer state, @RequestParam(value = "page", defaultValue = "1") Integer page, @RequestParam(value = "count", defaultValue = "6") Integer count,Long uid,String keywords) {
-        int totalCount = articleService.getArticleCountByState(state, uid,keywords);
-        List<Article> articles = articleService.getArticleAll(state, page, count,uid,keywords);
+    public Map<String, Object> getArticleByStates(Integer state, @RequestParam(value = "page", defaultValue = "1") Integer page, @RequestParam(value = "count", defaultValue = "6") Integer count, Long uid, String keywords) {
+        int totalCount = articleService.getArticleCountByState(state, uid, keywords);
+        List<Article> articles = articleService.getArticleAll(state, page, count, uid, keywords);
         Map<String, Object> map = new HashMap<>();
         map.put("totalCount", totalCount);
         map.put("articles", articles);
@@ -91,9 +91,9 @@ public class ArticleController {
     }
 
     @RequestMapping(value = "/cate", method = RequestMethod.GET)
-    public Map<String, Object> getArticleByStated(@RequestParam(value = "state", defaultValue = "-1") Integer state, @RequestParam(value = "page", defaultValue = "1") Integer page, @RequestParam(value = "count", defaultValue = "6") Integer count,String cate) {
-        int totalCount = articleService.getArticleCountByStated(state, Util.getCurrentUser().getId(),cate);
-        List<Article> articles = articleService.getArticleByStated(state, page, count,cate);
+    public Map<String, Object> getArticleByStated(@RequestParam(value = "state", defaultValue = "-1") Integer state, @RequestParam(value = "page", defaultValue = "1") Integer page, @RequestParam(value = "count", defaultValue = "6") Integer count, String cate) {
+        int totalCount = articleService.getArticleCountByStated(state, Util.getCurrentUser().getId(), cate);
+        List<Article> articles = articleService.getArticleByStated(state, page, count, cate);
         Map<String, Object> map = new HashMap<>();
         map.put("totalCount", totalCount);
         map.put("articles", articles);
@@ -122,7 +122,7 @@ public class ArticleController {
     }
 
     @RequestMapping("/dataStatistics")
-    public Map<String,Object> dataStatistics() {
+    public Map<String, Object> dataStatistics() {
         Map<String, Object> map = new HashMap<>();
         List<String> categories = articleService.getCategories();
         List<Integer> dataStatistics = articleService.getDataStatistics();

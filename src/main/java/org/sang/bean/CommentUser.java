@@ -3,7 +3,11 @@ package org.sang.bean;
 import java.sql.Timestamp;
 import java.util.List;
 
+/**
+ * Created by albert on 2019/12/19.
+ */
 public class CommentUser {
+
     private Long id;
     private Long aid;
     private String content;

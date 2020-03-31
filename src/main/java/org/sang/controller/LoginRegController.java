@@ -19,16 +19,13 @@ public class LoginRegController {
     @RequestMapping("/login_error")
     @ResponseBody
     public RespBean loginError() {
-
         System.out.println("sahf");
         return new RespBean("error", "登录失败sfg!");
     }
 
     @RequestMapping("/login_success")
     @ResponseBody
-    public RespBean loginSuccess()
-    {
-
+    public RespBean loginSuccess() {
         return new RespBean("success", "登录成功s!");
     }
 

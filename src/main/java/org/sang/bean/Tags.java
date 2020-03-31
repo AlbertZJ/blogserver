@@ -4,6 +4,7 @@ package org.sang.bean;
  * Created by albert on 2019/12/20.
  */
 public class Tags {
+
     private Long id;
     private String tagName;
 

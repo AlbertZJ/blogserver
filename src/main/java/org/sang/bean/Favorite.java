@@ -2,7 +2,11 @@ package org.sang.bean;
 
 import java.sql.Timestamp;
 
+/**
+ * Created by albert on 2019/12/19.
+ */
 public class Favorite {
+
     private Long id;
     private Long uid;
     private Long aid;
@@ -10,6 +14,7 @@ public class Favorite {
     private String title;
     private Timestamp publishDate;
     private String nickname;
+    private String keywords;
 
     public String getKeywords() {
         return keywords;
@@ -18,8 +23,6 @@ public class Favorite {
     public void setKeywords(String keywords) {
         this.keywords = keywords;
     }
-
-    private String keywords;
 
     public String getTitle() {
         return title;

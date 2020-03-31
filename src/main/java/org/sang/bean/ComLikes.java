@@ -2,14 +2,10 @@ package org.sang.bean;
 
 import java.sql.Timestamp;
 
+/**
+ * Created by albert on 2019/12/19.
+ */
 public class ComLikes {
-    public Long getCountcomlikes() {
-        return countcomlikes;
-    }
-
-    public void setCountcomlikes(Long countcomlikes) {
-        this.countcomlikes = countcomlikes;
-    }
 
     public Long countcomlikes;
     private Long id;
@@ -18,6 +14,15 @@ public class ComLikes {
     private Long cid;
     private Timestamp publishDate;
     private Long num;
+
+    public Long getCountcomlikes() {
+        return countcomlikes;
+    }
+
+    public void setCountcomlikes(Long countcomlikes) {
+        this.countcomlikes = countcomlikes;
+    }
+
     public Long getNum() {
         return num;
     }
@@ -33,6 +38,7 @@ public class ComLikes {
     public void setLikes(int likes) {
         this.likes = likes;
     }
+
     public Long getId() {
         return id;
     }

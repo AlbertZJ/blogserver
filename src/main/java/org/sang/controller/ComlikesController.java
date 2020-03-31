@@ -11,14 +11,16 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
+
 import java.util.List;
 
 /**
- * 超级管理员专属Controller
+ * Created by albert on 2019/12/19.
  */
 @RestController
 @RequestMapping("/comlikes")
 public class ComlikesController {
+
     @Autowired
     ComLikesService comlikesService;
 
@@ -28,18 +30,17 @@ public class ComlikesController {
     }
 
     @RequestMapping(value = "/delete", method = RequestMethod.POST)
-    public RespBean deleteById(Long cid,int likestate) {
-        int result = comlikesService.deletelike(cid,likestate);
-        if (result==1) {
+    public RespBean deleteById(Long cid, int likestate) {
+        int result = comlikesService.deletelike(cid, likestate);
+        if (result == 1) {
             return new RespBean("success", "删除成功!");
         }
         return new RespBean("error", "删除失败!");
     }
 
-
     @RequestMapping(value = "/add", method = RequestMethod.POST)
-    public RespBean add(Long cid,int likestate) {
-        int result = comlikesService.add(cid,likestate);
+    public RespBean add(Long cid, int likestate) {
+        int result = comlikesService.add(cid, likestate);
         if (result == 1) {
             return new RespBean("success", "点赞成功!");
         }
@@ -47,8 +48,8 @@ public class ComlikesController {
     }
 
     @RequestMapping(value = "/adddislike", method = RequestMethod.POST)
-    public RespBean adddislike(Long  cid,int likestate) {
-        int result = comlikesService.add(cid,likestate);
+    public RespBean adddislike(Long cid, int likestate) {
+        int result = comlikesService.add(cid, likestate);
         if (result == 1) {
             return new RespBean("success", "差评成功!");
         }

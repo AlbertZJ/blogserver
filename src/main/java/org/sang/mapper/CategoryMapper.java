@@ -7,10 +7,11 @@ import org.sang.bean.Category;
 import java.util.List;
 
 /**
- * Created by sang on 2017/12/19.
+ * Created by albert on 2019/12/19.
  */
 @Mapper
 public interface CategoryMapper {
+
     List<Category> getAllCategories();
 
     int deleteCategoryByIds(@Param("ids") String[] ids);

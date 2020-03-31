@@ -17,55 +17,54 @@ import java.sql.Timestamp;
 @Service
 @Transactional
 public class LikesService {
+
     @Autowired
     LikesMapper likesMapper;
     @Autowired
     CountlikesMapper countlikesMapper;
 
-    public Countlikes select(Countlikes countlikes){
+    public Countlikes select(Countlikes countlikes) {
         return countlikesMapper.selects(countlikes);
     }
 
-    public int addCount(Countlikes countlikes){
+    public int addCount(Countlikes countlikes) {
         countlikes.setPublishDate(new Timestamp(System.currentTimeMillis()));
         return countlikesMapper.add(countlikes);
     }
 
-    public int deleteCount(Countlikes countlikes){
+    public int deleteCount(Countlikes countlikes) {
         return countlikesMapper.delete(countlikes);
     }
 
-    public int update(Countlikes countlikes){
+    public int update(Countlikes countlikes) {
         return countlikesMapper.update(countlikes);
     }
-//    public Comment getCommentById(Long aid) {
+
+    //    public Comment getCommentById(Long aid) {
 //        Comment comment = commentMapper.getCommentById(aid);
 //        // NoticeMapper.pvIncrement(aid);
 //        return comment;
 //    }
     public int add(Likes likes) {
-        Countlikes countlikes=new Countlikes();
+        Countlikes countlikes = new Countlikes();
         countlikes.setAid(likes.getAid());
         countlikes.setPublishDate(new Timestamp(System.currentTimeMillis()));
-        int add=countlikesMapper.add(countlikes);
-
-
-
+        int add = countlikesMapper.add(countlikes);
         //设置当前用户(通过当前用户id)
         likes.setUid(Util.getCurrentUser().getId());
         likes.setPublishDate(new Timestamp(System.currentTimeMillis()));
-        int liked=likesMapper.add(likes);
+        int liked = likesMapper.add(likes);
         countlikesMapper.update(countlikes);
         return liked;
     }
+
     public int adddislike(Long aid) {
-        Countlikes countlikes=new Countlikes();
+        Countlikes countlikes = new Countlikes();
         countlikes.setAid(aid);
         countlikes.setPublishDate(new Timestamp(System.currentTimeMillis()));
-        int add=countlikesMapper.add(countlikes);
+        int add = countlikesMapper.add(countlikes);
         countlikesMapper.updatedislike(countlikes);
-
-        Likes likes=new Likes();
+        Likes likes = new Likes();
         likes.setAid(aid);
         likes.setLikes(-1);
         //设置当前用户(通过当前用户id)
@@ -73,40 +72,34 @@ public class LikesService {
         likes.setPublishDate(new Timestamp(System.currentTimeMillis()));
         return likesMapper.add(likes);
     }
-//    public int add(Likes likes) {
+
+    //    public int add(Likes likes) {
 //        //设置当前用户(通过当前用户id)
 //        likes.setUid(Util.getCurrentUser().getId());
 //        likes.setPublishDate(new Timestamp(System.currentTimeMillis()));
 //        return likesMapper.add(likes);
 //    }
-    public Likes getLikes(Likes likes){
+    public Likes getLikes(Likes likes) {
         //设置当前用户(通过当前用户id)
         likes.setUid(Util.getCurrentUser().getId());
-     return likesMapper.getLikes(likes);
+        return likesMapper.getLikes(likes);
     }
-    public int deletelike(Likes likes){
-        Countlikes countlikes=new Countlikes();
+
+    public int deletelike(Likes likes) {
+        Countlikes countlikes = new Countlikes();
         countlikes.setAid(likes.getAid());
         countlikes.setPublishDate(new Timestamp(System.currentTimeMillis()));
-       //  int add=countlikesMapper.add(countlikes);
+        //  int add=countlikesMapper.add(countlikes);
 //        if(likes.getLikes()==-1){
 //            countlikesMapper.deletedislike(countlikes);
 //        }else{
 //            countlikesMapper.updatedelete(countlikes);
 //        }
-
-
         //设置当前用户(通过当前用户id)
         likes.setUid(Util.getCurrentUser().getId());
-        int liked=likesMapper.updatelike(likes);
+        int liked = likesMapper.updatelike(likes);
         countlikesMapper.updatedelete(countlikes);
         return liked;
     }
-
-//    public int deletelike(Likes likes){
-//        //设置当前用户(通过当前用户id)
-//        likes.setUid(Util.getCurrentUser().getId());
-//        return likesMapper.deletelike(likes);
-//    }
 
 }

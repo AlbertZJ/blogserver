@@ -20,35 +20,31 @@ import java.sql.Timestamp;
 @Service
 @Transactional
 public class ComLikesService {
+
     @Autowired
     ComLikesMapper comlikesMapper;
     @Autowired
     CountcomlikesMapper countcomlikesMapper;
 
-    public int add(Long cid,int likestate) {
-        Countcomlikes countcomlikes=new Countcomlikes();
+    public int add(Long cid, int likestate) {
+        Countcomlikes countcomlikes = new Countcomlikes();
         countcomlikes.setCid(cid);
         countcomlikes.setLikes(likestate);
         countcomlikes.setPublishDate(new Timestamp(System.currentTimeMillis()));
-        int add=countcomlikesMapper.add(countcomlikes);
-
-        ComLikes num=new ComLikes();
+        int add = countcomlikesMapper.add(countcomlikes);
+        ComLikes num = new ComLikes();
         num.setCid(cid);
         num.setLikes(likestate);
-        ComLikes coms=new ComLikes();
-       coms=  comlikesMapper.number(num);
-
-        if(likestate==-1){
-            countcomlikes.setCountdislike(coms.countcomlikes+1);
-
+        ComLikes coms = new ComLikes();
+        coms = comlikesMapper.number(num);
+        if (likestate == -1) {
+            countcomlikes.setCountdislike(coms.countcomlikes + 1);
             countcomlikesMapper.updatedislike(countcomlikes);
-        }else{
-            countcomlikes.setCountlike(coms.countcomlikes+1);
-
+        } else {
+            countcomlikes.setCountlike(coms.countcomlikes + 1);
             countcomlikesMapper.update(countcomlikes);
         }
-
-        ComLikes likes=new ComLikes();
+        ComLikes likes = new ComLikes();
         likes.setCid(cid);
         likes.setLikes(likestate);
         //设置当前用户(通过当前用户id)
@@ -57,51 +53,43 @@ public class ComLikesService {
         return comlikesMapper.add(likes);
     }
 
-
-
-    public ComLikes getLikes(ComLikes likes){
+    public ComLikes getLikes(ComLikes likes) {
         //设置当前用户(通过当前用户id)
         likes.setUid(Util.getCurrentUser().getId());
         return comlikesMapper.getLikes(likes);
     }
-    public int deletelike(Long cid,int likestate){
-        Countcomlikes countcomlikes=new Countcomlikes();
+
+    public int deletelike(Long cid, int likestate) {
+        Countcomlikes countcomlikes = new Countcomlikes();
         countcomlikes.setCid(cid);
         countcomlikes.setPublishDate(new Timestamp(System.currentTimeMillis()));
-        int add=countcomlikesMapper.add(countcomlikes);
-        ComLikes num=new ComLikes();
+        int add = countcomlikesMapper.add(countcomlikes);
+        ComLikes num = new ComLikes();
         num.setCid(cid);
         num.setLikes(likestate);
-        ComLikes coms=new ComLikes();
-        coms=  comlikesMapper.number(num);
-
-
-
-        if(likestate==-1){
+        ComLikes coms = new ComLikes();
+        coms = comlikesMapper.number(num);
+        if (likestate == -1) {
 //            if(coms.countcomlikes.equals(0)){
 //                countcomlikes.setCountdislike(Integer.toUnsignedLong(0));
 //            }else {
-                countcomlikes.setCountdislike(coms.countcomlikes-1);
+            countcomlikes.setCountdislike(coms.countcomlikes - 1);
             //}
             countcomlikesMapper.deletedislike(countcomlikes);
-        }else{
-
+        } else {
 //            if(coms.countcomlikes.equals(0)){
 //                countcomlikes.setCountlike(Integer.toUnsignedLong(0));
 //            }else {
-                countcomlikes.setCountlike(coms.countcomlikes-1);
+            countcomlikes.setCountlike(coms.countcomlikes - 1);
             //}
             countcomlikesMapper.update(countcomlikes);
         }
-        ComLikes likes=new ComLikes();
+        ComLikes likes = new ComLikes();
         likes.setCid(cid);
         likes.setLikes(likestate);
         //设置当前用户(通过当前用户id)
         likes.setUid(Util.getCurrentUser().getId());
-        int l= comlikesMapper.deletelike(likes);
-
+        int l = comlikesMapper.deletelike(likes);
         return l;
     }
-
-
 }

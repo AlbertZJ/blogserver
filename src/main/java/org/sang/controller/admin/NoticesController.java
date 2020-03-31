@@ -20,6 +20,7 @@ import java.util.Map;
 @RestController
 @RequestMapping("/admin")
 public class NoticesController {
+
     @Autowired
     NoticeService noticesService;
 

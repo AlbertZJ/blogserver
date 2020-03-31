@@ -14,7 +14,6 @@
         <if test='news=="是"'>
             ,news=#{news}
         </if>
-
         <if test="state==1">
             ,state=1
         </if>
@@ -30,7 +29,7 @@
 
     <select id="getNoticeByState" resultType="org.sang.bean.Notice">
         SELECT n.id,n.title,n.`message`,n.`publishDate`,n.`state`,u.`nickname`,n.uid,n.`news` FROM notice AS n,USER AS
-        u WHERE  n.`uid`=u.`id`
+        u WHERE n.`uid`=u.`id`
         <if test="state!=-2">
             and n.uid=#{uid}
         </if>
@@ -45,8 +44,10 @@
         </if>
         ORDER BY n.publishDate DESC limit #{start},#{count};
     </select>
+
     <select id="getNoticeByStateByAdmin" resultType="org.sang.bean.Notice">
-        SELECT n.id,n.`message`,n.`publishDate`,n.`state`,u.`nickname`,n.uid,n.`news` FROM notice AS n,USER AS u WHERE  n.`uid`=u.`id` AND n.state=1
+        SELECT n.id,n.`message`,n.`publishDate`,n.`state`,u.`nickname`,n.uid,n.`news` FROM notice AS n,USER AS u WHERE
+        n.`uid`=u.`id` AND n.state=1
         <if test="keywords!=null">
             AND message LIKE concat('%',#{keywords},'%')
         </if>
@@ -67,6 +68,7 @@
             </if>
         </where>
     </select>
+
     <update id="updateNoticeState">
         UPDATE notice SET state=#{state} WHERE id IN
         <foreach collection="aids" item="aid" separator="," open="(" close=")">
@@ -74,15 +76,17 @@
         </foreach>
     </update>
 
-    <update id="updateNoticeStateById" >
+    <update id="updateNoticeStateById">
         UPDATE notice SET state=#{state} WHERE id = #{noticeId}
     </update>
+
     <delete id="deleteNoticeById">
         DELETE FROM notice WHERE id IN
         <foreach collection="aids" item="aid" open="(" close=")" separator=",">
             #{aid}
         </foreach>
     </delete>
+
     <select id="getNoticeById" parameterType="Long" resultMap="BaseResultMap">
          SELECT n.id,n.message,n.`title`,n.`mdContent`,n.`htmlContent`,n.publishDate,u.nickname,n.state,n.`news`
  FROM notice AS n,USER AS u WHERE n.uid=u.id AND n.id=#{aid}
