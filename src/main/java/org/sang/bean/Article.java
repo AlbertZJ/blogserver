@@ -8,6 +8,24 @@ import java.util.List;
  */
 public class Article {
 
+    public Long getTotal() {
+        return total;
+    }
+
+    public void setTotal(Long total) {
+        this.total = total;
+    }
+
+    public Long getMonths() {
+        return months;
+    }
+
+    public void setMonths(Long months) {
+        this.months = months;
+    }
+
+    private  Long months;
+    private Long total;
     private Long id;
     private String title;
     private String mdContent;
@@ -25,6 +43,25 @@ public class Article {
     private List<Tags> tags;
     private String stateStr;
     private Long countlike;
+
+    public String getBegin() {
+        return begin;
+    }
+
+    public void setBegin(String begin) {
+        this.begin = begin;
+    }
+
+    private  String begin;
+    public String getYears() {
+        return years;
+    }
+
+    public void setYears(String years) {
+        this.years = years;
+    }
+
+    private String years;
 
     public Long getCountdislike() {
         return countdislike;
