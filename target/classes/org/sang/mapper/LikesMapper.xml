@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="org.sang.mapper.LikesMapper">
+
+    <insert id="add" parameterType="org.sang.bean.Likes">
+        insert ignore into likes(aid,uid,publishDate,likes) values(#{aid},#{uid},#{publishDate},#{likes})
+    </insert>
+
+    <select id="getLikes" resultType="org.sang.bean.Likes">
+        SELECT likes FROM likes where uid=#{uid} and aid=#{aid}
+    </select>
+
+    <delete id="updatelike">
+        DELETE FROM likes  WHERE uid=#{uid} AND aid=#{aid}
+    </delete>
+</mapper>

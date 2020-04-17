@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="org.sang.mapper.CountcomlikesMapper">
+
+    <!--    针对唯一列值，ignore有效-->
+    <insert id="add" parameterType="org.sang.bean.Countcomlikes">
+        insert ignore into countcomlikes(countlike,countdislike,cid,publishDate) values(0,0,#{cid},#{publishDate})
+    </insert>
+
+    <select id="selects" resultType="org.sang.bean.Countcomlikes">
+        SELECT * FROM countcomlikes where cid=#{cid}
+    </select>
+
+    <update id="update" parameterType="org.sang.bean.Countcomlikes">
+       UPDATE countcomlikes SET countlike=#{countlike}
+ WHERE cid=#{cid}
+    </update>
+
+    <update id="updatedislike" parameterType="org.sang.bean.Countcomlikes">
+       UPDATE countcomlikes SET countdislike=#{countdislike}
+ WHERE cid=#{cid}
+    </update>
+
+    <update id="updatedelete" parameterType="org.sang.bean.Countcomlikes">
+       UPDATE countcomlikes SET countlike=#{countlike}
+ WHERE cid=#{cid}
+    </update>
+
+    <update id="deletedislike" parameterType="org.sang.bean.Countcomlikes">
+       UPDATE countcomlikes SET countdislike=#{countdislike}
+ WHERE cid=#{cid}
+    </update>
+
+    <update id="delete" parameterType="org.sang.bean.Countcomlikes">
+        UPDATE countcomlikes SET countlike=#{countlike} where cid=#{cid}
+    </update>
+
+    <delete id="deleted">
+     DELETE FROM countcomlikes WHERE cid=#{cid}
+    </delete>
+</mapper>
+
